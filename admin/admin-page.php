@@ -12,7 +12,7 @@ if ( isset( $_POST['import_products'] ) ) {
     if ( ! isset( $_POST['import_nonce'] ) || ! wp_verify_nonce( $_POST['import_nonce'], 'import_products' ) ) {
         $import_message = '<div class="error"><p>Security check failed.</p></div>';
     } else {
-        // Check if JSON is valid
+        // Check if JSON is valid before importing
         if ( isset( $_POST['is_json_valid'] ) && $_POST['is_json_valid'] === '1' ) {
             $import_message = '<div class="updated"><p>' . esc_html( import_products( $_POST['import_data'] ) ) . '</p></div>';
         } else {
@@ -77,6 +77,17 @@ if ( isset( $_POST['delete_product'] ) ) {
     exit;
 }
 
+// Handle bulk delete
+if ( isset( $_POST['bulk_delete'] ) && isset( $_POST['product_ids'] ) && is_array( $_POST['product_ids'] ) ) {
+    $deleted_count = 0;
+    foreach ( $_POST['product_ids'] as $product_id ) {
+        if ( delete_product( intval( $product_id ) ) ) {
+            $deleted_count++;
+        }
+    }
+    $delete_message = '<div class="updated"><p>' . sprintf( _n( '%s product deleted.', '%s products deleted.', $deleted_count, 'cclist-a' ), $deleted_count ) . '</p></div>';
+}
+
 /**
  * Displays the product management page in the WordPress admin.
  */
@@ -100,20 +111,37 @@ function display_product_management_page() {
         $messages .= $import_message;
     }
 
- $products = get_products($_GET);
- $available_categories = get_available_categories();
-    $available_sizes = get_available_sizes();
-
     // Get sort parameters from the URL, with defaults
     $sort_by = isset( $_GET['sort_by'] ) ? $_GET['sort_by'] : 'category';
     $sort_order = isset( $_GET['sort_order'] ) ? $_GET['sort_order'] : 'ASC';
 
- $products = get_products($_GET, $sort_by, $sort_order);
+    // Get pagination parameters from the URL, with defaults
+    $page = isset( $_GET['page_num'] ) ? intval( $_GET['page_num'] ) : 1;
+    $per_page = isset( $_GET['per_page'] ) ? intval( $_GET['per_page'] ) : 10;
+
+    // Ensure 'page_num' is always part of the $_GET parameters
+    if (!isset($_GET['page_num'])) {
+        $_GET['page_num'] = $page;
+    }
+
+    // Ensure 'per_page' is always part of the $_GET parameters
+    if (!isset($_GET['per_page'])) {
+        $_GET['per_page'] = $per_page;
+    }
+
+    // Get filtered and sorted products
+	$products = get_products($_GET, $sort_by, $sort_order, $page, $per_page);
+    // Get total number of products (for pagination)
+    $total_products = get_total_products($_GET);
+
+    // Get available categories and sizes for filter dropdowns
+	$available_categories = get_available_categories();
+    $available_sizes = get_available_sizes();
 
     echo '<div class="wrap">';
     echo '<h1>Product Management</h1>';
 
-   // Display any messages
+    // Display any messages
     echo $messages;
 
     // --- Include Components ---
@@ -123,16 +151,20 @@ function display_product_management_page() {
     require_once( plugin_dir_path( __FILE__ ) . 'components/tables/ProductTable.php' );
 
     // --- Component Calls ---
- display_product_form( $available_categories, $available_sizes );
+    // Display the "Add Product" form (modal)
+    display_product_form( $available_categories, $available_sizes );
 
- echo '<h2>Filter Products</h2>';
+    echo '<h2>Filter Products</h2>';
+    // Display the filter form
     display_filter_form( $available_categories, $available_sizes );
 
     echo '<h2>Product List</h2>';
-    display_product_table( $products, $sort_by, $sort_order );
+    // Display the product table with sorting and pagination
+    display_product_table( $products, $sort_by, $sort_order, $page, $per_page, $total_products );
 
     echo '<h2>Import Data</h2>';
- display_import_form();
+    // Display the import form
+	display_import_form();
 
     echo '</div>'; // Close .wrap
 }

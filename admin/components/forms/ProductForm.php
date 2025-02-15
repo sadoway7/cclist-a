@@ -1,12 +1,18 @@
 <?php
+/**
+ * Displays the "Add Product" form within a modal.
+ *
+ * @param array $available_categories An array of available product categories.
+ * @param array $available_sizes An array of available product sizes.
+ */
 function display_product_form( $available_categories, $available_sizes ) {
     // Button to trigger the modal
     echo '<button type="button" class="button button-primary" id="add-product-button">Add Product</button>';
 
-    // Modal structure
+    // Modal structure (initially hidden)
     echo '<div id="add-product-modal" class="modal-container" style="display: none;">';
     echo '<div class="modal-content">';
-    echo '<span class="close-button">&times;</span>';
+    echo '<span class="close-button">&times;</span>'; // Close button (X)
     echo '<h2>Add Product</h2>';
     echo '<form method="post" id="add-product-form" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 20px;">';
 

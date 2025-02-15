@@ -13,13 +13,42 @@
     border: 1px solid #ddd;
     text-align: left;
 }
-/* New CSS for grouping */
+/* Enhanced CSS for grouping */
 .product-table .new-item-group {
     border-top: 2px solid #0073aa; /* A thicker, colored border for the first item in a group */
+    background-color: #f0f8ff; /* Light blue background */
+    font-weight: bold; /* Bolder text */
+    margin-top: 1em; /* Space between groups */
+}
+/* Remove top margin from the very first group */
+.product-table tbody tr:first-child .new-item-group {
+    margin-top: 0;
 }
 .product-table .sub-item:nth-child(odd) {
     background-color: #f9f9f9; /* Lighter background for odd sub-items */
 }
 .product-table .sub-item:nth-child(even) {
     background-color: #ffffff; /* White background for even sub-items */
+}
+
+/* Styles for buttons with icons */
+.product-table .actions .button {
+	display: inline-flex;
+    align-items: center;
+    gap: 0.25em; /* Space between icon and text */
+}
+
+/* Hover states */
+.product-table tbody tr:hover {
+    background-color: #e6f7ff; /* Light blue on hover */
+}
+
+.product-table .actions .button:hover {
+    background-color: #005a9e; /* Darker blue on hover */
+    color: #fff; /* White text on hover */
+}
+
+/* Row highlighting */
+.product-table tbody tr.row-selected {
+    background-color: #cce5ff; /* Lighter blue for selected rows */
 }

@@ -1,13 +1,15 @@
 <?php
 /**
- * Retrieves products from the database, filtered and sorted for display.
+ * Retrieves products from the database, filtered, sorted, and paginated for display.
  *
- * @param array $filters An array of filter parameters.
- * @param string $sort_by The column to sort by.
- * @param string $sort_order The sort order (ASC or DESC).
- * @return array An array of products.
+ * @param array $filters An array of filter parameters (category, size, price_min, price_max, quantity_min, quantity_max, discount_only, search).
+ * @param string $sort_by The column to sort by (default: 'category').
+ * @param string $sort_order The sort order ('ASC' or 'DESC', default: 'ASC').
+ * @param int $page The current page number (default: 1).
+ * @param int $per_page The number of products per page (default: 10).
+ * @return array An array of products matching the criteria.
  */
-function get_products($filters = array(), $sort_by = 'category', $sort_order = 'ASC') {
+function get_products($filters = array(), $sort_by = 'category', $sort_order = 'ASC', $page = 1, $per_page = 10) {
     global $wpdb;
     $table_name = $wpdb->prefix . 'products';
 
@@ -75,15 +77,93 @@ function get_products($filters = array(), $sort_by = 'category', $sort_order = '
       $order_by_clause .= ', item ASC, size ASC, quantity_min ASC';
     }
 
+    // Calculate offset
+    $offset = ($page - 1) * $per_page;
 
-    $query = "SELECT * FROM $table_name $where_clause $order_by_clause";
+    // Add LIMIT and OFFSET for pagination
+    $limit_clause = "LIMIT %d, %d";
+    $params[] = $offset;
+    $params[] = $per_page;
+
+
+    $query = "SELECT * FROM $table_name $where_clause $order_by_clause $limit_clause";
 
     if (!empty($params)) {
       $query = $wpdb->prepare($query, $params);
     }
-
+    
     $results = $wpdb->get_results($query, ARRAY_A);
     return $results ? $results : array();
+}
+
+/**
+ * Retrieves the total number of products, taking into account filters.
+ *
+ * @param array $filters An array of filter parameters.
+ * @return int The total number of products.
+ */
+function get_total_products($filters = array()) {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'products';
+
+    $where = array();
+    $params = array();
+
+    // Category filter
+    if (!empty($filters['category'])) {
+        $where[] = 'category = %s';
+        $params[] = $filters['category'];
+    }
+
+    // Size filter
+    if (!empty($filters['size'])) {
+        $where[] = 'size = %s';
+        $params[] = $filters['size'];
+    }
+
+    // Price range filter
+    if (!empty($filters['price_min'])) {
+        $where[] = 'price >= %f';
+        $params[] = $filters['price_min'];
+    }
+    if (!empty($filters['price_max'])) {
+        $where[] = 'price <= %f';
+        $params[] = $filters['price_max'];
+    }
+
+    // Quantity range filter
+    if (!empty($filters['quantity_min'])) {
+        $where[] = 'quantity_min >= %d';
+        $params[] = $filters['quantity_min'];
+    }
+    if (!empty($filters['quantity_max'])) {
+        $where[] = '(quantity_max <= %d OR quantity_max IS NULL)';
+        $params[] = $filters['quantity_max'];
+    }
+
+    // Discount filter
+    if (!empty($filters['discount_only'])) {
+        $where[] = 'discount > 0';
+    }
+
+    // Search filter (item name)
+    if (!empty($filters['search'])) {
+        $where[] = 'item LIKE %s';
+        $params[] = '%' . $wpdb->esc_like($filters['search']) . '%';
+    }
+
+    $where_clause = '';
+    if (!empty($where)) {
+        $where_clause = 'WHERE ' . implode(' AND ', $where);
+    }
+
+    $query = "SELECT COUNT(*) FROM $table_name $where_clause";
+
+    if (!empty($params)) {
+        $query = $wpdb->prepare($query, $params);
+    }
+
+    return (int) $wpdb->get_var($query);
 }
 
 /**
@@ -115,7 +195,7 @@ function get_available_sizes() {
  *
  * This function should add products in the same way as the manual add form.
  *
- * @param array $product The product data.
+ * @param array $product The product data (category, item, size, quantity_min, quantity_max, price, discount).
  * @return bool True on success, false on failure.
  */
 function add_product($product) {
@@ -142,7 +222,7 @@ function add_product($product) {
  * Updates an existing product in the database.
  *
  * @param int   $id      The product ID.
- * @param array $product The updated product data.
+ * @param array $product The updated product data (category, item, size, quantity_min, quantity_max, price, discount).
  * @return bool True on success, false on failure.
  */
 function update_product($id, $product) {
@@ -234,7 +314,7 @@ function import_products($json_data) {
         return 'No data provided.';
     }
 
-    // Remove any non-printable characters and escaped slashes.  This is the key addition.
+    // Remove any non-printable characters and escaped slashes.
     $json_data = preg_replace('/[[:cntrl:]]/', '', $json_data);
     $json_data = stripslashes($json_data);
 

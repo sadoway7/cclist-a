@@ -1,4 +1,10 @@
 <?php
+/**
+ * Displays the filter form for the product table.
+ *
+ * @param array $available_categories An array of available product categories.
+ * @param array $available_sizes An array of available product sizes.
+ */
 function display_filter_form( $available_categories, $available_sizes = array() ) {
     echo '<form method="get" style="margin-bottom: 20px;">';
     echo '<input type="hidden" name="page" value="product-management" />';
@@ -38,6 +44,16 @@ function display_filter_form( $available_categories, $available_sizes = array() 
 
     echo '<label for="search">Search:</label>';
     echo '<input type="text" name="search" id="search" value="' . ( isset( $_GET['search'] ) ? esc_attr( $_GET['search'] ) : '' ) . '" />';
+
+    echo '<label for="per_page">Per Page:</label>';
+    echo '<select name="per_page" id="per_page">';
+    $options = array(10, 25, 50, 100);
+    foreach ($options as $option) {
+        $selected = ( isset( $_GET['per_page'] ) && $_GET['per_page'] == $option ) ? 'selected' : '';
+        echo '<option value="' . esc_attr( $option ) . '" ' . $selected . '>' . esc_html( $option ) . '</option>';
+    }
+    echo '</select>';
+
     echo '<input type="submit" class="button" value="Filter" />';
     echo '</form>';
 }
