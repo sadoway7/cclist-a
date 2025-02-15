@@ -1,14 +1,88 @@
 <?php
 /**
- * Retrieves all products from the database, sorted for display.
+ * Retrieves products from the database, filtered and sorted for display.
  *
+ * @param array $filters An array of filter parameters.
+ * @param string $sort_by The column to sort by.
+ * @param string $sort_order The sort order (ASC or DESC).
  * @return array An array of products.
  */
-function get_products() {
+function get_products($filters = array(), $sort_by = 'category', $sort_order = 'ASC') {
     global $wpdb;
     $table_name = $wpdb->prefix . 'products';
-    // Added ORDER BY clause
-    $results = $wpdb->get_results( "SELECT * FROM $table_name ORDER BY category, item, size, quantity_min", ARRAY_A );
+
+    $where = array();
+    $params = array();
+
+    // Category filter
+    if (!empty($filters['category'])) {
+        $where[] = 'category = %s';
+        $params[] = $filters['category'];
+    }
+
+    // Size filter
+    if (!empty($filters['size'])) {
+        $where[] = 'size = %s';
+        $params[] = $filters['size'];
+    }
+
+    // Price range filter
+    if (!empty($filters['price_min'])) {
+        $where[] = 'price >= %f';
+        $params[] = $filters['price_min'];
+    }
+    if (!empty($filters['price_max'])) {
+        $where[] = 'price <= %f';
+        $params[] = $filters['price_max'];
+    }
+
+    // Quantity range filter
+    if (!empty($filters['quantity_min'])) {
+        $where[] = 'quantity_min >= %d';
+        $params[] = $filters['quantity_min'];
+    }
+    if (!empty($filters['quantity_max'])) {
+        $where[] = '(quantity_max <= %d OR quantity_max IS NULL)';
+        $params[] = $filters['quantity_max'];
+    }
+
+    // Discount filter
+    if (!empty($filters['discount_only'])) {
+        $where[] = 'discount > 0';
+    }
+
+    // Search filter (item name)
+    if (!empty($filters['search'])) {
+        $where[] = 'item LIKE %s';
+        $params[] = '%' . $wpdb->esc_like($filters['search']) . '%';
+    }
+
+    $where_clause = '';
+    if (!empty($where)) {
+        $where_clause = 'WHERE ' . implode(' AND ', $where);
+    }
+
+    // Sanitize and validate sort parameters
+    $allowed_columns = array('category', 'item', 'size', 'quantity_min', 'quantity_max', 'price', 'discount');
+    $sort_by = in_array($sort_by, $allowed_columns) ? $sort_by : 'category'; // Default to category
+    $sort_order = strtoupper($sort_order) === 'DESC' ? 'DESC' : 'ASC'; // Default to ASC
+
+    // The ORDER BY clause now uses the sanitized variables
+    $order_by_clause = "ORDER BY $sort_by $sort_order";
+
+    // If sorting by category, also sort by item, size, and quantity_min
+    if ($sort_by === 'category') {
+      $order_by_clause .= ', item ASC, size ASC, quantity_min ASC';
+    }
+
+
+    $query = "SELECT * FROM $table_name $where_clause $order_by_clause";
+
+    if (!empty($params)) {
+      $query = $wpdb->prepare($query, $params);
+    }
+
+    $results = $wpdb->get_results($query, ARRAY_A);
     return $results ? $results : array();
 }
 

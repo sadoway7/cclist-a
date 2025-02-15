@@ -1,0 +1,13 @@
+.wrap label {
+    display: block; /* Labels above inputs */
+    margin-bottom: 5px; /* Space between label and input */
+    font-weight: bold;
+}
+.wrap input[type="text"],
+.wrap input[type="number"],
+.wrap select,
+.wrap textarea {
+    width: 100%; /* Inputs take full width of their container */
+    box-sizing: border-box; /* Include padding and border in width */
+    margin-bottom: 10px;
+}
