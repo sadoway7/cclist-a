@@ -1,0 +1,42 @@
+{
+    "available_categories": ["Mugs", "Bowls", "Plates", "Vases"],
+    "available_sizes": ["8oz", "12oz", "16oz", "20oz", "Small", "Medium", "Large"],
+    "products": [
+        {
+            "category": "Mugs",
+            "item": "Coffee Mug",
+            "size": "12oz",
+            "quantity_min": 1,
+            "quantity_max": 11,
+            "price": 10.00,
+            "discount": 0
+        },
+        {
+            "category": "Mugs",
+            "item": "Coffee Mug",
+            "size": "12oz",
+            "quantity_min": 12,
+            "quantity_max": null,
+            "price": 8.00,
+            "discount": 0
+        },
+        {
+            "category": "Bowls",
+            "item": "Soup Bowl",
+            "size": "16oz",
+            "quantity_min": 1,
+            "quantity_max": 5,
+            "price": 15.00,
+            "discount": 0
+        },
+         {
+            "category": "Bowls",
+            "item": "Soup Bowl",
+            "size": "16oz",
+            "quantity_min": 6,
+            "quantity_max": null,
+            "price": 12.00,
+            "discount": 0
+        }
+    ]
+}
