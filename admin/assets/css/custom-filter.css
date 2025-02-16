@@ -1,16 +1,18 @@
 .filter-form {
-    padding: 15px;
+    padding: 12px 15px;
     background: #fff;
     border: 1px solid #ccd0d4;
     box-shadow: 0 1px 1px rgba(0,0,0,.04);
     margin-bottom: 20px;
+    max-width: 1200px;
 }
 
 /* Filter groups layout */
 .filter-group {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    align-items: flex-start;
+    gap: 15px;
     margin-bottom: 15px;
     padding-bottom: 15px;
     border-bottom: 1px solid #eee;
@@ -22,12 +24,28 @@
     padding-bottom: 0;
 }
 
-/* Individual filter containers */
-.filter-form > div {
-    flex: 1 1 200px;
-    min-width: 200px;
-    max-width: 300px;
-    margin-bottom: 10px;
+/* Size-specific containers */
+#search_container {
+    flex: 1 1 300px;
+    max-width: 400px;
+}
+
+#category_filter_container,
+#size_filter_container,
+#per_page_container {
+    flex: 0 1 200px;
+}
+
+#price_min_container,
+#price_max_container,
+#quantity_min_container,
+#quantity_max_container {
+    flex: 0 1 120px;
+}
+
+#discount_only_container {
+    flex: 0 1 auto;
+    margin-top: 24px; /* Align checkbox with other inputs */
 }
 
 /* Labels styling */
@@ -36,6 +54,13 @@
     margin-bottom: 5px;
     font-weight: 600;
     color: #23282d;
+    font-size: 13px;
+}
+
+/* Checkbox label specific */
+#discount_only_container label {
+    display: inline-block;
+    margin-right: 8px;
 }
 
 /* Input fields styling */
@@ -43,14 +68,14 @@
 .filter-form input[type="number"],
 .filter-form select {
     width: 100%;
-    max-width: 100%;
-    padding: 6px 8px;
+    padding: 4px 8px;
     box-shadow: 0 0 0 transparent;
     border-radius: 4px;
     border: 1px solid #7e8993;
     background-color: #fff;
     color: #32373c;
     box-sizing: border-box;
+    min-height: 30px;
 }
 
 .filter-form input[type="text"]:focus,
@@ -61,17 +86,16 @@
     outline: 2px solid transparent;
 }
 
-/* Checkbox styling */
-.filter-form input[type="checkbox"] {
-    margin-right: 8px;
+/* Number input specific */
+.filter-form input[type="number"] {
+    padding-right: 0; /* Accommodate spinner */
 }
 
 /* Button group styling */
 .filter-form .button-group {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     margin-top: 20px;
-    flex-basis: 100%;
 }
 
 .filter-form .button {
@@ -80,14 +104,20 @@
 
 /* Responsive adjustments */
 @media screen and (max-width: 782px) {
-    .filter-form > div {
-        flex: 1 1 100%;
-        max-width: none;
-    }
-    
     .filter-form input[type="text"],
     .filter-form input[type="number"],
     .filter-form select {
         font-size: 16px; /* Prevents zoom on mobile */
+    }
+    
+    #search_container,
+    #category_filter_container,
+    #size_filter_container,
+    #per_page_container,
+    #price_min_container,
+    #price_max_container,
+    #quantity_min_container,
+    #quantity_max_container {
+        flex: 1 1 100%;
     }
 }
