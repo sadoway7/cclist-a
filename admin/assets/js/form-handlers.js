@@ -151,17 +151,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Hide all filter containers
-            document.querySelectorAll('[id$=_filter_container]').forEach(container => {
-                container.style.display = 'none';
-            });
+            //document.querySelectorAll('[id$=_filter_container]').forEach(container => {
+            //    container.style.display = 'none';
+            //});
 
             // Show selected filter containers
-            selectedFilters.forEach(filter => {
-                const container = document.getElementById(filter + '_filter_container');
-                if (container) {
-                    container.style.display = 'block';
-                }
-            });
+            //selectedFilters.forEach(filter => {
+            //    const container = document.getElementById(filter + '_filter_container');
+            //    if (container) {
+            //        container.style.display = 'block';
+            //    }
+            //});
         }
 
         // Attach event listeners to filter checkboxes
