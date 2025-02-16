@@ -17,7 +17,7 @@ function display_filter_form( $available_categories, $available_sizes = array() 
         <?php wp_nonce_field( 'filter_products', 'filter_nonce' ); ?>
 
         <!-- Search Row -->
-    echo '<div class="filter-row">';
+    <?php echo '<div class="filter-row">';
     echo '<div class="search-section">';
     echo '<label for="search">SEARCH</label>';
     echo '<input type="text" name="search" id="search" value="' . ( isset( $_GET['search'] ) ? esc_attr( $_GET['search'] ) : '' ) . '" placeholder="Search products..." />';
@@ -101,8 +101,7 @@ function display_filter_form( $available_categories, $available_sizes = array() 
     echo '</div>'; // Close options-section
     echo '</div>'; // Close filter-row
 
-    echo '</form>';
-    ?>
+    echo '</form>'; ?>
     </fieldset>
     <?php
 }

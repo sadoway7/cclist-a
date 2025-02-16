@@ -17,7 +17,7 @@ function display_product_form( $available_categories, $available_sizes ) {
         <?php wp_nonce_field( 'add_product', 'add_product_nonce' ); ?>
 
         <!-- First row: Category, Item, Size -->
-    echo '<div class="filter-row">';
+    <?php echo '<div class="filter-row">';
     
     // Category Input with Datalist
     echo '<div class="filter-section">';
@@ -81,8 +81,8 @@ function display_product_form( $available_categories, $available_sizes ) {
     echo '<div class="button-group" style="margin-left: auto;">';
     echo '<button type="button" id="submit-add-product" class="button-primary">Add Product</button>';
     echo '</div>';
-        echo '</div>';
-        ?>
+        echo '</div>'; ?>
+
         </form>
     </fieldset>
     <?php
