@@ -118,26 +118,46 @@ document.addEventListener('DOMContentLoaded', function() {
   // Dynamic filter handling
   const filterSelector = document.getElementById('filter_selector');
   if (filterSelector) {
-    filterSelector.addEventListener('change', function() {
-      const selectedFilters = Array.from(this.selectedOptions).map(option => option.value);
+  filterSelector.addEventListener('change', function() {
+    let selectedFilters = Array.from(this.selectedOptions).map(option => option.value);
 
-      // Hide all filter containers
-      document.querySelectorAll('[id$=_filter_container]').forEach(container => {
-        container.style.display = 'none';
-      });
-
-      // Show selected filter containers
-      selectedFilters.forEach(filter => {
-        const container = document.getElementById(filter + '_filter_container');
-        if (container) {
-          container.style.display = 'block';
+    // If no filters are selected, enforce defaults
+    if (selectedFilters.length === 0) {
+      ['category', 'size', 'search'].forEach(filter => {
+        const option = filterSelector.querySelector(`option[value="${filter}"]`);
+        if (option) {
+          option.selected = true;
         }
       });
+      selectedFilters = ['category', 'size', 'search']; // Update selectedFilters array
+    }
+
+    // Hide all filter containers
+    document.querySelectorAll('[id$=_filter_container]').forEach(container => {
+      container.style.display = 'none';
     });
 
-    // Trigger change on load to handle any pre-selected filters
-    filterSelector.dispatchEvent(new Event('change'));
+    // Show selected filter containers
+    selectedFilters.forEach(filter => {
+      const container = document.getElementById(filter + '_filter_container');
+      if (container) {
+        container.style.display = 'block';
+      }
+    });
+  });
+
+  // Trigger change on load to handle any pre-selected filters, and set defaults if none selected
+  if (filterSelector.selectedOptions.length === 0) {
+    // Set default selections if none are selected
+    ['category', 'size', 'search'].forEach(filter => {
+      const option = filterSelector.querySelector(`option[value="${filter}"]`);
+      if (option) {
+        option.selected = true;
+      }
+    });
   }
+  filterSelector.dispatchEvent(new Event('change'));
+}
 
   // Add event listener for "Remove Selected Filters" button
   const removeFiltersButton = document.getElementById('remove_selected_filters');
@@ -152,5 +172,4 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
-  location.reload(true);
 });
