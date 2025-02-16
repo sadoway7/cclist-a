@@ -11,17 +11,19 @@ function display_filter_form( $available_categories, $available_sizes = array() 
     // Add nonce for security
     wp_nonce_field( 'filter_products', 'filter_nonce' );
 
-    // Search Section
-    echo '<div class="filter-section">';
-    echo '<div id="search_container">';
+    // Search Row
+    echo '<div class="filter-row">';
+    echo '<div class="search-section">';
     echo '<label for="search">SEARCH</label>';
     echo '<input type="text" name="search" id="search" value="' . ( isset( $_GET['search'] ) ? esc_attr( $_GET['search'] ) : '' ) . '" placeholder="Search products..." />';
     echo '</div>';
     echo '</div>';
 
-    // Category Section
+    // Filters Row
+    echo '<div class="filter-row">';
+    
+    // Category Filter
     echo '<div class="filter-section">';
-    echo '<div id="category_filter_container">';
     echo '<label for="category_filter">CATEGORY</label>';
     echo '<select name="category" id="category_filter">';
     echo '<option value="">All Categories</option>';
@@ -31,11 +33,9 @@ function display_filter_form( $available_categories, $available_sizes = array() 
     }
     echo '</select>';
     echo '</div>';
-    echo '</div>';
 
-    // Size Section
+    // Size Filter
     echo '<div class="filter-section">';
-    echo '<div id="size_filter_container">';
     echo '<label for="size_filter">SIZE</label>';
     echo '<select name="size" id="size_filter">';
     echo '<option value="">All Sizes</option>';
@@ -45,29 +45,32 @@ function display_filter_form( $available_categories, $available_sizes = array() 
     }
     echo '</select>';
     echo '</div>';
-    echo '</div>';
 
-    // Price Section
+    // Price Filter
     echo '<div class="filter-section">';
     echo '<label>PRICE</label>';
     echo '<div class="range-inputs">';
     echo '<input type="number" step="0.01" name="price_min" id="price_min" value="' . ( isset( $_GET['price_min'] ) ? esc_attr( $_GET['price_min'] ) : '' ) . '" placeholder="Min" />';
+    echo '<span class="range-separator">-</span>';
     echo '<input type="number" step="0.01" name="price_max" id="price_max" value="' . ( isset( $_GET['price_max'] ) ? esc_attr( $_GET['price_max'] ) : '' ) . '" placeholder="Max" />';
     echo '</div>';
     echo '</div>';
 
-    // Quantity Section
+    // Quantity Filter
     echo '<div class="filter-section">';
     echo '<label>QUANTITY</label>';
     echo '<div class="range-inputs">';
     echo '<input type="number" name="quantity_min" id="quantity_min_filter" value="' . ( isset( $_GET['quantity_min'] ) ? esc_attr( $_GET['quantity_min'] ) : '' ) . '" placeholder="Min" />';
+    echo '<span class="range-separator">-</span>';
     echo '<input type="number" name="quantity_max" id="quantity_max_filter" value="' . ( isset( $_GET['quantity_max'] ) ? esc_attr( $_GET['quantity_max'] ) : '' ) . '" placeholder="Max" />';
     echo '</div>';
     echo '</div>';
 
-    // Show Section
+    // Options and Buttons
+    echo '<div class="options-section">';
+    
+    // Per Page Select
     echo '<div class="filter-section">';
-    echo '<div id="per_page_container">';
     echo '<label for="per_page">SHOW</label>';
     echo '<select name="per_page" id="per_page">';
     $options = array(10, 25, 50, 100);
@@ -78,17 +81,20 @@ function display_filter_form( $available_categories, $available_sizes = array() 
     echo '</select>';
     echo '</div>';
 
+    // Discounted Only Checkbox
     echo '<div id="discount_only_container">';
     echo '<input type="checkbox" name="discount_only" id="discount_filter" value="1" ' . ( isset( $_GET['discount_only'] ) && $_GET['discount_only'] == '1' ? 'checked' : '' ) . '/>';
     echo '<label for="discount_filter">DISCOUNTED ONLY</label>';
     echo '</div>';
-    echo '</div>';
 
     // Buttons
     echo '<div class="button-group">';
-    echo '<button type="submit" class="button button-primary">Apply Filters</button>';
+    echo '<button type="submit" class="button-primary">Apply Filters</button>';
     echo '<button type="button" id="remove_selected_filters" class="button-reset">Reset</button>';
     echo '</div>';
+    
+    echo '</div>'; // Close options-section
+    echo '</div>'; // Close filter-row
 
     echo '</form>';
 }

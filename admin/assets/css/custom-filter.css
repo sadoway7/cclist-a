@@ -1,51 +1,58 @@
 .filter-form {
-    padding: 24px;
+    padding: 20px;
     background: #fff;
-    border: 1px solid #e2e4e7;
-    border-radius: 6px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
     margin-bottom: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 32px;
-    align-items: flex-start;
 }
 
-/* Section styling */
-.filter-section {
+/* Main layout */
+.filter-row {
     display: flex;
-    gap: 24px;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.filter-row:last-child {
+    margin-bottom: 0;
+    justify-content: space-between;
     align-items: flex-end;
+}
+
+/* Search section */
+.search-section {
+    flex: 1;
+}
+
+/* Filter sections */
+.filter-section {
+    flex: 1;
+    min-width: 0;
+    max-width: 200px;
 }
 
 /* Labels */
 .filter-form label {
     display: block;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
-    color: #1d2327;
+    color: #23282d;
     margin-bottom: 6px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
 /* Input styling */
 .filter-form input[type="text"],
 .filter-form input[type="number"],
 .filter-form select {
-    height: 36px;
-    padding: 8px 12px;
+    width: 100%;
+    height: 32px;
+    padding: 4px 8px;
     background: #fff;
-    border: 1px solid #ccd0d4;
-    border-radius: 4px;
-    color: #2c3338;
-    font-size: 14px;
-    transition: all 0.15s ease;
-}
-
-.filter-form input[type="text"]:hover,
-.filter-form input[type="number"]:hover,
-.filter-form select:hover {
-    border-color: #a7aaad;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    color: #32373c;
+    font-size: 13px;
 }
 
 .filter-form input[type="text"]:focus,
@@ -58,45 +65,54 @@
 
 /* Search field */
 #search_container input {
-    width: 300px;
+    width: 100%;
 }
 
 /* Dropdowns */
 #category_filter,
-#size_filter {
-    width: 180px;
-    padding-right: 30px;
+#size_filter,
+#per_page {
+    padding-right: 24px;
     appearance: none;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M5 8l5 5 5-5z" fill="%23555"/></svg>');
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h8l-4 4z" fill="%23555"/></svg>');
     background-repeat: no-repeat;
-    background-position: right 8px center;
+    background-position: right 6px center;
 }
 
 /* Range inputs */
 .range-inputs {
     display: flex;
-    gap: 12px;
     align-items: center;
+    gap: 8px;
 }
 
-.range-inputs::before {
-    content: '-';
+.range-inputs input {
+    width: calc(50% - 4px);
+}
+
+.range-separator {
     color: #757575;
+    font-size: 16px;
+    line-height: 1;
 }
 
-#price_min,
-#price_max,
-#quantity_min_filter,
-#quantity_max_filter {
-    width: 90px;
+/* Options section */
+.options-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Per page select */
+#per_page {
+    width: 70px;
 }
 
 /* Checkbox styling */
 #discount_only_container {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-left: 8px;
+    gap: 6px;
 }
 
 #discount_filter {
@@ -105,37 +121,23 @@
     width: 16px;
 }
 
-/* Per page select */
-#per_page_container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-#per_page {
-    width: 80px;
-}
-
 /* Button styling */
 .button-group {
     display: flex;
-    gap: 16px;
+    gap: 12px;
     align-items: center;
-    margin-left: auto;
 }
 
 .button-primary {
     background: #2271b1;
     border: none;
     color: #fff;
-    padding: 8px 20px;
-    height: 36px;
-    line-height: 1.4;
-    border-radius: 4px;
+    padding: 4px 16px;
+    height: 32px;
+    line-height: 24px;
+    border-radius: 3px;
     font-size: 13px;
-    font-weight: 500;
     cursor: pointer;
-    transition: all 0.15s ease;
 }
 
 .button-primary:hover {
@@ -152,42 +154,29 @@
     text-decoration: underline;
 }
 
-.button-reset:hover {
-    color: #135e96;
-}
-
-/* Placeholder styling */
-.filter-form input::placeholder {
-    color: #757575;
-}
-
 /* Responsive */
 @media screen and (max-width: 1200px) {
-    .filter-form {
-        flex-direction: column;
-        gap: 24px;
+    .filter-row {
+        flex-wrap: wrap;
     }
 
     .filter-section {
-        width: 100%;
+        flex: 1 1 calc(50% - 10px);
+        max-width: none;
+    }
+
+    .search-section {
+        flex: 1 1 100%;
+    }
+
+    .options-section {
         flex-wrap: wrap;
-        gap: 16px;
-    }
-
-    #search_container input {
-        width: 100%;
-    }
-
-    .button-group {
-        margin-left: 0;
-        justify-content: flex-end;
-        width: 100%;
     }
 }
 
 @media screen and (max-width: 782px) {
-    .filter-form {
-        padding: 16px;
+    .filter-section {
+        flex: 1 1 100%;
     }
 
     .filter-form input[type="text"],
