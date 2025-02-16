@@ -63,6 +63,10 @@
     display: none; /* Initially hide the content */
 }
 
+.accordion-section.active .accordion-content {
+    display: block; /* Show content when active */
+}
+
 /* Submit Button Container */
 .submit-container {
     grid-column: 1 / -1;
