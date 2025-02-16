@@ -3,6 +3,7 @@
     margin-bottom: 5px; /* Space between label and input */
     font-weight: bold;
 }
+
 .wrap input[type="text"],
 .wrap input[type="number"],
 .wrap select,
@@ -10,4 +11,60 @@
     width: 100%; /* Inputs take full width of their container */
     box-sizing: border-box; /* Include padding and border in width */
     margin-bottom: 10px;
+}
+
+/* Grid Form Layout */
+.grid-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.grid-form .form-field {
+    position: relative;
+}
+
+/* Required Field Indicator */
+.required-field label::after {
+    content: '*';
+    color: #d63638;
+    margin-left: 4px;
+}
+
+/* Form Section Styling */
+.add-product-section {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.add-product-section h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Submit Button Container */
+.submit-container {
+    grid-column: 1 / -1;
+    text-align: right;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+/* Input Focus States */
+.grid-form input:focus,
+.grid-form select:focus {
+    border-color: #2271b1;
+    box-shadow: 0 0 0 1px #2271b1;
+    outline: 2px solid transparent;
 }

@@ -14,7 +14,7 @@ function display_product_form( $available_categories, $available_sizes ) {
     echo '<div class="modal-content">';
     echo '<span class="close-button">&times;</span>'; // Close button (X)
     echo '<h2>Add Product</h2>';
-    echo '<div id="add-product-form" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 20px;">';
+    echo '<form id="add-product-form" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 20px;">';
 
     // Add nonce field for security
     wp_nonce_field( 'add_product', 'add_product_nonce' );
@@ -71,7 +71,12 @@ function display_product_form( $available_categories, $available_sizes ) {
 	echo '<input type="number" step="0.01" name="discount" id="discount" style="width: 100%;">';
 	echo '</div>';
 
+    // Submit button container
+    echo '<div style="grid-column: 1 / -1; text-align: center; margin-top: 20px;">';
+    echo '<button type="button" id="submit-add-product" class="button button-primary">Submit Product</button>';
     echo '</div>';
+    
+    echo '</form>'; // Close form
     echo '</div>'; // Close modal-content
     echo '</div>'; // Close modal-container
 }

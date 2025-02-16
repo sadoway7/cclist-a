@@ -89,10 +89,38 @@ function formatPriceBreak(quantityMin, quantityMax, price, discount) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Attach event listener to the "Add Product" button in the modal
-    const addProductButton = document.getElementById('submit-add-product');
-    if (addProductButton) {
-        addProductButton.addEventListener('click', handleAddProduct);
+    // Modal handling
+    const modal = document.getElementById('add-product-modal');
+    const openModalBtn = document.getElementById('add-product-button');
+    const closeModalBtn = document.querySelector('.close-button');
+    const submitProductBtn = document.getElementById('submit-add-product');
+
+    // Open modal
+    if (openModalBtn && modal) {
+        openModalBtn.addEventListener('click', () => {
+            modal.style.display = 'block';
+        });
+    }
+
+    // Close modal
+    if (closeModalBtn && modal) {
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+    }
+
+    // Close modal when clicking outside
+    if (modal) {
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    }
+
+    // Attach event listener to the "Add Product" submit button
+    if (submitProductBtn) {
+        submitProductBtn.addEventListener('click', handleAddProduct);
     }
 
     // JSON validation for import form
@@ -159,10 +187,30 @@ document.addEventListener('DOMContentLoaded', function() {
  const removeFiltersButton = document.getElementById('remove_selected_filters');
  if (removeFiltersButton) {
  removeFiltersButton.addEventListener('click', function() {
- filterCheckboxes.forEach(checkbox => {
- checkbox.checked = false;
- });
- updateFilterVisibility(); // Trigger visibility update
+   // Reset all form inputs
+   const filterForm = document.querySelector('.filter-form');
+   if (filterForm) {
+     // Clear text and number inputs
+     filterForm.querySelectorAll('input[type="text"], input[type="number"]').forEach(input => {
+       input.value = '';
+     });
+     
+     // Reset selects to first option
+     filterForm.querySelectorAll('select').forEach(select => {
+       select.selectedIndex = 0;
+     });
+     
+     // Uncheck checkboxes
+     filterForm.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+       checkbox.checked = false;
+     });
+
+     // Reset filter visibility
+     updateFilterVisibility();
+     
+     // Submit the form to refresh results
+     filterForm.submit();
+   }
  });
  }
  }
