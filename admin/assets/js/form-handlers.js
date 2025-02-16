@@ -22,8 +22,9 @@ function handleAddProduct(event) {
         quantity_min: form.querySelector('#quantity_min').value,
         quantity_max: form.querySelector('#quantity_max').value,
         price: form.querySelector('#price').value,
-        discount: form.querySelector('#discount').value,
-        add_product_nonce: form.querySelector('#add_product_nonce').value // Include the nonce
+        discount: form.querySelector('#discount').value || '0',
+        add_product_nonce: form.querySelector('#add_product_nonce').value,
+        action: 'add_product' // WordPress AJAX action
     };
 
     // Basic client-side validation
@@ -47,30 +48,40 @@ function handleAddProduct(event) {
         return;
     }
 
+    // Log the form data for debugging
+    console.log('Submitting product data:', formData);
+
     // Send AJAX request
-    fetch('../admin/add-product.php', {
+    fetch(ajaxurl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
     })
-    .then(response => response.json())
+    .then(response => {
+        console.log('Response status:', response.status);
+        return response.json();
+    })
     .then(data => {
+        console.log('Response data:', data);
         if (data.success) {
             // Hide the form
             document.getElementById('add-product-form-container').style.display = 'none';
+            // Reset the button text
+            document.getElementById('add-product-button').textContent = 'Add Product';
             // Clear the form
             form.reset();
             // Display a success message
-            displayError(data.message);
+            displayError('Product added successfully!');
             // Reload the product list to show the new product
             location.reload();
         } else {
-            displayError('Error adding product: ' + data.message);
+            displayError('Error adding product: ' + (data.data || data.message));
         }
     })
     .catch(error => {
+        console.error('Error:', error);
         displayError('Error adding product: ' + error);
     });
 }
@@ -101,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
         accordionTrigger.addEventListener('click', () => {
             const isHidden = accordionContent.style.display === 'none';
             accordionContent.style.display = isHidden ? 'block' : 'none';
-            // Optional: Update button text/icon to indicate state
+            // Update button text to indicate state
             accordionTrigger.textContent = isHidden ? 'Close Form' : 'Add Product';
         });
     }
