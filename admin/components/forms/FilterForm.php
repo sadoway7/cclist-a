@@ -11,19 +11,27 @@ function display_filter_form( $available_categories, $available_sizes = array() 
  // Add nonce for security
  wp_nonce_field( 'filter_products', 'filter_nonce' );
 
- echo '<div><label for="filter_selector">Select Filters:</label>';
- echo '<select name="filter_selector[]" id="filter_selector" multiple>';
- echo '<option value="category">Category</option>';
- echo '<option value="size">Size</option>';
- echo '<option value="price_min">Price Min</option>';
- echo '<option value="price_max">Price Max</option>';
- echo '<option value="quantity_min">Quantity Min</option>';
- echo '<option value="quantity_max">Quantity Max</option>';
- echo '<option value="discount_only">Discounted Only</option>';
- echo '<option value="search">Search</option>';
- echo '<option value="per_page">Per Page</option>';
+ echo '<div><span>Select Filters:</span><br>';
+ $filters = array(
+ 'category' => 'Category',
+ 'size' => 'Size',
+ 'price_min' => 'Price Min',
+ 'price_max' => 'Price Max',
+ 'quantity_min' => 'Quantity Min',
+ 'quantity_max' => 'Quantity Max',
+ 'discount_only' => 'Discounted Only',
+ 'search' => 'Search',
+ 'per_page' => 'Per Page'
+ );
 
- echo '</select></div>';
+ foreach ($filters as $value => $label) {
+ $checked = (isset($_GET['filter_selector']) && in_array($value, $_GET['filter_selector'])) ? 'checked' : '';
+ echo '<input type="checkbox" id="filter_selector_' . $value . '" name="filter_selector[]" value="' . $value . '" ' . $checked .'>';
+ echo '<label for="filter_selector_' . $value . '">' . $label . '</label><br>';
+
+ }
+ echo '</div>';
+
 
  echo '<div id="category_filter_container"><label for="category_filter">Category:</label>';
  echo '<select name="category" id="category_filter">';

@@ -115,72 +115,55 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-  // Dynamic filter handling
-  const filterSelector = document.getElementById('filter_selector');
-  if (filterSelector) {
-  filterSelector.addEventListener('change', function() {
-    let selectedFilters = Array.from(this.selectedOptions).map(option => option.value);
+ // Dynamic filter handling
+ const filterCheckboxes = document.querySelectorAll('input[name="filter_selector[]"]');
+ if (filterCheckboxes.length > 0) {
+ function updateFilterVisibility() {
+ const selectedFilters = Array.from(document.querySelectorAll('input[name="filter_selector[]"]:checked')).map(checkbox => checkbox.value);
 
-    // If no filters are selected, enforce defaults
-    if (selectedFilters.length === 0) {
-      ['category', 'size', 'search'].forEach(filter => {
-        const option = filterSelector.querySelector(`option[value="${filter}"]`);
-        if (option) {
-          option.selected = true;
-        }
-      });
-      selectedFilters = ['category', 'size', 'search']; // Update selectedFilters array
-    }
+ // If no filters are selected, enforce defaults
+ if (selectedFilters.length === 0) {
+ ['category', 'size', 'search'].forEach(filter => {
+ const checkbox = document.getElementById(`filter_selector_${filter}`);
+ if (checkbox) {
+ checkbox.checked = true;
+ }
+ });
+ selectedFilters = ['category', 'size', 'search']; // Update selectedFilters array
+ }
 
-    // Hide all filter containers
-    document.querySelectorAll('[id$=_filter_container]').forEach(container => {
-      container.style.display = 'none';
-    });
+ // Hide all filter containers
+ document.querySelectorAll('[id$=_filter_container]').forEach(container => {
+ container.style.display = 'none';
+ });
 
-    // Show selected filter containers
-    selectedFilters.forEach(filter => {
-      const container = document.getElementById(filter + '_filter_container');
-      if (container) {
-        container.style.display = 'block';
-      }
-    });
+ // Show selected filter containers
+ selectedFilters.forEach(filter => {
+ const container = document.getElementById(filter + '_filter_container');
+ if (container) {
+ container.style.display = 'block';
+ }
+ });
+ }
 
-      // Show selected filter containers
-      selectedFilters.forEach(filter => {
-        const container = document.getElementById(filter + '_filter_container');
-        if (container) {
-          container.style.display = 'block';
-        }
-      });
-      //trigger after logic
-      filterSelector.dispatchEvent(new Event('change'));
-    });
+ // Attach event listeners to filter checkboxes
+ filterCheckboxes.forEach(checkbox => {
+ checkbox.addEventListener('change', updateFilterVisibility);
+ });
 
-  // Trigger change on load to handle any pre-selected filters, and set defaults if none selected
-    if (filterSelector.selectedOptions.length === 0) {
-      // Set default selections if none are selected
-      ['category', 'size', 'search'].forEach(filter => {
-        const option = filterSelector.querySelector(`option[value="${filter}"]`);
-        if (option) {
-          option.selected = true;
-        }
-      });
-      filterSelector.dispatchEvent(new Event('change'));
-    }
+ // Initial visibility update (for page load with pre-selected filters)
+ updateFilterVisibility();
 
-  }
 
-  // Add event listener for "Remove Selected Filters" button
-  const removeFiltersButton = document.getElementById('remove_selected_filters');
-  if (removeFiltersButton) {
-    removeFiltersButton.addEventListener('click', function() {
-      const filterSelector = document.getElementById('filter_selector');
-      if (filterSelector) {
-        Array.from(filterSelector.options).forEach(option => {
-          option.selected = false;
-        });
-        filterSelector.dispatchEvent(new Event('change')); // Trigger change to update display
-      }
-    });
-  }
+ // Add event listener for "Remove Selected Filters" button
+ const removeFiltersButton = document.getElementById('remove_selected_filters');
+ if (removeFiltersButton) {
+ removeFiltersButton.addEventListener('click', function() {
+ filterCheckboxes.forEach(checkbox => {
+ checkbox.checked = false;
+ });
+ updateFilterVisibility(); // Trigger visibility update
+ });
+ }
+ }
 });
