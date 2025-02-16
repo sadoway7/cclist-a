@@ -2,7 +2,15 @@
     border-top: 2px solid #000; /* Distinct border for the start of a group */
 }
 
-.product-table tbody tr.group-item td:nth-child(3), /* Size column */
-.product-table tbody tr.group-item td:nth-child(4) { /* Price Break column */
+.product-table tbody tr.group-item td:nth-child(4), /* Size column */
+.product-table tbody tr.group-item td:nth-child(5) { /* Price Break column */
     padding-left: 20px; /* Indent size and price break */
+}
+
+.product-table .actions {
+    white-space: nowrap; /* Prevent buttons from wrapping */
+}
+
+.product-table .actions button {
+    margin-right: 5px; /* Add some spacing between buttons */
 }

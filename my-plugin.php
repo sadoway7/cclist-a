@@ -2,7 +2,7 @@
 /**
  * Plugin Name: cclist-admin
  * Description: Product management plugin.
- * Version: 0.1.1.4
+ * Version: 0.1.1.5
  * GitHub Plugin URI: sadoway7/cclist-a
  * GitHub Plugin URI: https://github.com/sadoway7/cclist-a.git
  */
@@ -131,6 +131,7 @@ function enqueue_custom_scripts() {
     wp_enqueue_style( 'form-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/forms.css' );
     wp_enqueue_style( 'components-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/components.css' );
     wp_enqueue_style( 'custom-table-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/custom-table.css' );
+    wp_enqueue_style( 'custom-filter-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/custom-filter.css' );
 }
 add_action( 'admin_enqueue_scripts', 'enqueue_custom_scripts' );
 

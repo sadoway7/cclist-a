@@ -180,8 +180,9 @@ function handleDeleteClick(event) {
     .then(response => response.json())
     .then(data => {
       if (data.success) {
-        // Remove the row from the table
+        // Remove the row from the table AND refresh to ensure db is updated
         this.closest('tr').remove();
+          location.reload();
       } else {
         displayError('Error deleting product: ' + data.message);
       }
@@ -194,111 +195,112 @@ function handleDeleteClick(event) {
 
 // Function to handle the "Duplicate" button click (AJAX)
 function handleDuplicateClick(event) {
-    event.preventDefault();
-    const productId = this.dataset.id;
-    const nonce = this.dataset.nonce;
+  event.preventDefault();
+  const productId = this.dataset.id;
+  const nonce = this.dataset.nonce;
 
-    fetch(ajax_object.ajax_url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id: productId, duplicate_nonce: nonce, action: 'duplicate_product' }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            //Ideally this would insert the new item into the table, but a refresh is easier for now.
-            location.reload();
-        } else {
-            displayError('Error duplicating product: ' + data.message);
-        }
-    })
-     .catch(error => {
-        displayError('Error duplicating product: ' + error);
-    });
+  fetch(ajax_object.ajax_url, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id: productId, duplicate_nonce: nonce, action: 'duplicate_product' }),
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          //Ideally this would insert the new item into the table, but a refresh is easier for now.
+          location.reload();
+      } else {
+          displayError('Error duplicating product: ' + data.message);
+      }
+  })
+   .catch(error => {
+      displayError('Error duplicating product: ' + error);
+  });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Attach event listeners to all "Edit" buttons
-    document.querySelectorAll('.edit-product').forEach(button => {
-        button.addEventListener('click', handleEditClick);
-    });
+  // Attach event listeners to all "Edit" buttons
+  document.querySelectorAll('.edit-product').forEach(button => {
+      button.addEventListener('click', handleEditClick);
+  });
 
-   // Select all functionality using event delegation
-    document.addEventListener('change', function(event) {
-        if (event.target.id === 'select-all-products') {
-            const checkboxes = document.querySelectorAll('.product-checkbox');
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = event.target.checked;
-            });
-        }
-    });
+ // Select all functionality using event delegation
+  document.addEventListener('change', function(event) {
+      if (event.target.id === 'select-all-products') {
+          const checkboxes = document.querySelectorAll('.product-checkbox');
+          checkboxes.forEach(checkbox => {
+              checkbox.checked = event.target.checked;
+          });
+      }
+  });
 
-    // Bulk actions
-    const bulkActionButton = document.getElementById('doaction2'); // Assuming this is the correct button
-    if (bulkActionButton) {
-        bulkActionButton.addEventListener('click', function(event) {
-            event.preventDefault();
+  // Bulk actions
+  const bulkActionButton = document.getElementById('doaction2'); // Assuming this is the correct button
+  if (bulkActionButton) {
+      bulkActionButton.addEventListener('click', function(event) {
+          event.preventDefault();
 
-            const selectedAction = document.getElementById('bulk-action-selector-bottom').value;
-            if (selectedAction === 'delete') {
-                const selectedProducts = document.querySelectorAll('.product-checkbox:checked');
-                const productIds = Array.from(selectedProducts).map(checkbox => checkbox.value);
+          const selectedAction = document.getElementById('bulk-action-selector-bottom').value;
+          if (selectedAction === 'delete') {
+              const selectedProducts = document.querySelectorAll('.product-checkbox:checked');
+              const productIds = Array.from(selectedProducts).map(checkbox => checkbox.value);
 
-                if (confirm('Are you sure you want to delete the selected products?')) {
-                    // Construct a form and submit it
-                    const form = document.createElement('form');
-                    form.method = 'POST';
-                    form.action = ''; // Submit to the same page
-                    
-                    // Add a hidden input for the action
-                    const actionInput = document.createElement('input');
-                    actionInput.type = 'hidden';
-                    actionInput.name = 'bulk_delete'; // A specific action name
-                    actionInput.value = '1'; // Indicate we want to perform the action
-                    form.appendChild(actionInput);
+              if (confirm('Are you sure you want to delete the selected products?')) {
+                  // Construct a form and submit it
+                  const form = document.createElement('form');
+                  form.method = 'POST';
+                  form.action = ''; // Submit to the same page
+                 
+                  // Add a hidden input for the action
+                  const actionInput = document.createElement('input');
+                  actionInput.type = 'hidden';
+                  actionInput.name = 'bulk_delete'; // A specific action name
+                  actionInput.value = '1'; // Indicate we want to perform the action
+                  form.appendChild(actionInput);
 
-                    // Add product IDs as hidden inputs
-                    productIds.forEach(id => {
-                        const input = document.createElement('input');
-                        input.type = 'hidden';
-                        input.name = 'product_ids[]';
-                        input.value = id;
-                        form.appendChild(input);
-                    });
+                  // Add product IDs as hidden inputs
+                  productIds.forEach(id => {
+                      const input = document.createElement('input');
+                      input.type = 'hidden';
+                      input.name = 'product_ids[]';
+                      input.value = id;
+                      form.appendChild(input);
+                  });
 
-                    // Append the form to the body and submit it
-                    document.body.appendChild(form);
-                    form.submit();
-                }
-            }
-        });
-    }
+                  // Append the form to the body and submit it
+                  document.body.appendChild(form);
+                  form.submit();
+              }
+          }
+      });
+  }
 
-    // Row highlighting
-    const productCheckboxes = document.querySelectorAll('.product-checkbox');
-    productCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-            const row = this.closest('tr');
-            if (this.checked) {
-                row.classList.add('row-selected');
-            } else {
-                row.classList.remove('row-selected');
-            }
-        });
-    });
-  // Attach event listeners to all "Delete" buttons using event delegation.
+  // Row highlighting
+  const productCheckboxes = document.querySelectorAll('.product-checkbox');
+  productCheckboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+          const row = this.closest('tr');
+          if (this.checked) {
+              row.classList.add('row-selected');
+          } else {
+              row.classList.remove('row-selected');
+          }
+      });
+  });
+
+    // Attach event listeners to all "Delete" buttons using event delegation.  Removed individual attachment.
     document.querySelector('.products').addEventListener('click', function(event) {
-        if (event.target.classList.contains('delete-product')) {
-            handleDeleteClick.call(event.target, event);
+        if (event.target.closest('.delete-product')) {
+            handleDeleteClick.call(event.target.closest('.delete-product'), event);
         }
     });
 
   // Attach event listeners to all "Duplicate" buttons using event delegation.
-    document.querySelector('.products').addEventListener('click', function(event) {
-        if (event.target.classList.contains('duplicate-product')) {
-            handleDuplicateClick.call(event.target, event);
-        }
-    });
+  document.querySelector('.products').addEventListener('click', function(event) {
+    if (event.target.closest('.duplicate-product')) {
+      handleDuplicateClick.call(event.target.closest('.duplicate-product'), event);
+    }
+  });
 });

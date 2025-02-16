@@ -39,11 +39,12 @@ function display_product_table( $products, $sort_by = 'category', $sort_order = 
                     <th class="manage-column check-column">
                         <input type="checkbox" id="select-all-products">
                     </th>
+                    <th>ID</th>
                     <th><a href="<?php echo esc_url( $category_sort_url ); ?>">Category <?php if ($sort_by == 'category') echo ($sort_order == 'ASC' ? '▲' : '▼'); ?></a></th>
                     <th><a href="<?php echo esc_url( $item_sort_url ); ?>">Item <?php if ($sort_by == 'item') echo ($sort_order == 'ASC' ? '▲' : '▼'); ?></a></th>
                     <th><a href="<?php echo esc_url( $size_sort_url ); ?>">Size <?php if ($sort_by == 'size') echo ($sort_order == 'ASC' ? '▲' : '▼'); ?></a></th>
                     <th><a href="<?php echo esc_url( $price_sort_url ); ?>">Price Break <?php if ($sort_by == 'price') echo ($sort_order == 'ASC' ? '▲' : '▼'); ?></a></th>
-                    <th class="actions">Action</th>
+                    <th class="actions">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -89,6 +90,7 @@ function display_product_table( $products, $sort_by = 'category', $sort_order = 
                         ?>
                         <tr class="<?php echo $new_item ? 'group-start' : 'group-item'; ?>">
                             <td><input type="checkbox" name="product_ids[]" value="<?php echo esc_attr( $product['id'] ); ?>" class="product-checkbox"></td>
+                            <td><?php echo esc_html( $product['id'] ); ?></td>
                             <?php
                             // Category
                             if ( $new_category ) : ?>
