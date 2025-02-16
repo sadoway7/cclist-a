@@ -8,6 +8,8 @@
 function display_filter_form( $available_categories, $available_sizes = array() ) {
     echo '<form method="get" style="margin-bottom: 20px;">';
     echo '<input type="hidden" name="page" value="product-management" />';
+    // Add nonce for security
+    wp_nonce_field( 'filter_products', 'filter_nonce' );
 
     echo '<label for="category_filter">Category:</label>';
     echo '<select name="category" id="category_filter">';

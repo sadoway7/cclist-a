@@ -8,25 +8,28 @@ $raw_data = file_get_contents('php://input');
 $data = json_decode($raw_data, true);
 
 if ( ! empty( $data ) ) {
-    // Get the product ID
-    $id = isset($data['id']) ? intval($data['id']) : 0;
-
-    // Nonce check
-    if ( ! check_ajax_referer( 'edit_product_' . $id, 'edit_nonce', false ) ) {
+    // Verify the nonce
+    if ( ! isset( $data['add_product_nonce'] ) || ! wp_verify_nonce( $data['add_product_nonce'], 'add_product' ) ) {
         wp_send_json_error( 'Invalid security token.' );
         exit;
     }
 
-    // Sanitize the data (you can add more specific validation as needed)
+    // Sanitize the data
     $category = sanitize_text_field( $data['category'] );
     $item = sanitize_text_field( $data['item'] );
-    $size = sanitize_text_field( $data['size'] );
+    $size =  sanitize_text_field( $data['size'] ) ;
     $quantity_min = intval( $data['quantity_min'] );
     $quantity_max = $data['quantity_max'] === '' ? null : intval($data['quantity_max']);
     $price = floatval( $data['price'] );
     $discount = floatval( $data['discount'] );
 
-    // Update the product
+    // Update available categories and sizes
+    add_available_category($category);
+    if ($size !== null) {
+        add_available_size($size);
+    }
+
+    // Create the product array
     $product = array(
         'category'     => $category,
         'item'         => $item,
@@ -37,10 +40,11 @@ if ( ! empty( $data ) ) {
         'discount'     => $discount
     );
 
-    if ( update_product( $id, $product ) ) {
-        wp_send_json_success( 'Product updated successfully.' );
+    // Add the product
+    if ( add_product( $product ) ) {
+        wp_send_json_success( 'Product added successfully.' );
     } else {
-        wp_send_json_error( 'Failed to update product.' );
+        wp_send_json_error( 'Failed to add product.' );
     }
 } else {
     wp_send_json_error( 'No data received.' );

@@ -21,62 +21,6 @@ if ( isset( $_POST['import_products'] ) ) {
     }
  }
 
-// Handle form submission for adding products
-if ( isset( $_POST['add_product'] ) ) {
-    if ( empty( $_POST['category'] )  || empty( $_POST['item'] ) || empty( $_POST['price'] ) ) {
-        $add_message = '<div class="error"><p>Error: Please fill in all required fields.</p></div>';
-    } else {
-        $category = sanitize_text_field( $_POST['category'] );
-        $item = sanitize_text_field( $_POST['item'] );
-        $size =  sanitize_text_field( $_POST['size'] ) ;
-        $quantity_min = intval( $_POST['quantity_min'] );
-		$quantity_max = $_POST['quantity_max'] === '' ? null : intval($_POST['quantity_max']);
-        $price = floatval( $_POST['price'] );
-        $discount = floatval( $_POST['discount'] );
-
-        $product = array(
-            'category' => $category,
-            'item' => $item,
-            'size' => $size,
-            'quantity_min' => $quantity_min,
-            'quantity_max' => $quantity_max,
-            'price' => $price,
-            'discount' => $discount
-        );
-
-        // Update available categories and sizes
-        add_available_category($category);
-		if ($size !== null) {
-        	add_available_size($size);
-		}
-
-        if ( ! add_product( $product ) ) {
-            $add_message = '<div class="error"><p>Error: Could not add product.</p></div>';
-        } else {
-            $add_message = '<div class="updated"><p>Product added successfully.</p></div>';
-        }
-    }
-    // Redirect to refresh the list.
-    wp_redirect( add_query_arg( 'add_message', urlencode( $add_message ), menu_page_url( 'product-management', false ) ) );
-    exit;
-}
-
-// Handle product deletion
-if ( isset( $_POST['delete_product'] ) ) {
-    $id = intval( $_POST['id'] );
-    if ( ! delete_product($id) ) {
-        $delete_message = '<div class="error"><p>Error: Could not delete product.</p></div>';
-    } else {
-        $delete_message = '<div class="updated"><p>Product deleted successfully.</p></div>';
-    }
-    if ( ! function_exists( 'wp_redirect' ) ) {
-        require_once( ABSPATH . 'wp-includes/pluggable.php' );
-    }
-    // Add timestamp to force reload
-    wp_redirect( add_query_arg( array('delete_message' => urlencode( $delete_message ), 'timestamp' => time()), menu_page_url( 'product-management', false ) ) );
-    exit;
-}
-
 // Handle bulk delete
 if ( isset( $_POST['bulk_delete'] ) && isset( $_POST['product_ids'] ) && is_array( $_POST['product_ids'] ) ) {
     $deleted_count = 0;
@@ -152,6 +96,7 @@ function display_product_management_page() {
 
     // --- Component Calls ---
     // Display the "Add Product" form (modal)
+    echo '<h2>Add Product</h2>';
     display_product_form( $available_categories, $available_sizes );
 
     echo '<h2>Filter Products</h2>';
@@ -184,4 +129,29 @@ function add_product_management_menu() {
         'display_product_management_page' // Callback function
     );
 }
+
+/**
+ * Enqueues scripts and styles for the admin page.
+ */
+function enqueue_admin_scripts($hook) {
+    // Only enqueue on our plugin's page
+    if ( 'toplevel_page_product-management' !== $hook ) {
+        return;
+    }
+
+    // Enqueue styles
+    wp_enqueue_style( 'cc-product-management-components', plugin_dir_url( __FILE__ ) . 'assets/css/components.css' );
+    wp_enqueue_style( 'cc-product-management-forms', plugin_dir_url( __FILE__ ) . 'assets/css/forms.css' );
+    wp_enqueue_style( 'cc-product-management-tables', plugin_dir_url( __FILE__ ) . 'assets/css/tables.css' );
+
+    // Enqueue scripts
+    wp_enqueue_script( 'cc-product-management-form-handlers', plugin_dir_url( __FILE__ ) . 'assets/js/form-handlers.js', array( 'jquery' ), '1.0', true );
+    wp_enqueue_script( 'cc-product-management-table-handlers', plugin_dir_url( __FILE__ ) . 'assets/js/table-handlers.js', array( 'jquery' ), '1.0', true );
+
+    // Localize the script with the AJAX URL
+    wp_localize_script( 'cc-product-management-table-handlers', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+    wp_localize_script( 'cc-product-management-form-handlers', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+}
+
+add_action( 'admin_enqueue_scripts', 'enqueue_admin_scripts' );
 ?>

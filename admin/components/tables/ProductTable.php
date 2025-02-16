@@ -32,6 +32,7 @@ function display_product_table( $products, $sort_by = 'category', $sort_order = 
 
         ob_start(); // Start output buffering
         ?>
+        <div id="error-message" style="color: red;"></div>
         <table class="wp-list-table widefat fixed striped table-view-list products product-table">
             <thead>
                 <tr>
@@ -82,26 +83,23 @@ function display_product_table( $products, $sort_by = 'category', $sort_order = 
                                 ?>
                             </td>
                             <td class="actions">
-                                <form method="post" style="display: inline;">
-                                    <input type="hidden" name="id" value="<?php echo esc_attr( $product['id'] ); ?>">
-                                    <button type="submit" name="delete_product" class="button">
-                                        <span class="dashicons dashicons-trash"></span> Delete
-                                    </button>
-                                </form>
-                                <form method="post" style="display: inline;" class="duplicate-form">
-                                    <input type="hidden" name="duplicate_category" value="<?php echo esc_attr( $product['category'] ); ?>">
-                                    <input type="hidden" name="duplicate_item" value="<?php echo esc_html( $product['item'] ); ?>">
-                                    <input type="hidden" name="duplicate_size" value="<?php echo esc_attr( $product['size'] ); ?>">
-                                    <button type="submit" name="duplicate_product" class="button">
-                                        <span class="dashicons dashicons-admin-page"></span> Duplicate
-                                    </button>
-                                </form>
-                                <form method="post" style="display: inline;" class="edit-form">
-                                    <input type="hidden" name="edit_id" value="<?php echo esc_attr( $product['id'] ); ?>">
-                                    <button type="submit" name="edit_product" class="button edit-product">
-                                        <span class="dashicons dashicons-edit"></span> Edit
-                                    </button>
-                                </form>
+                                <input type="hidden" name="id" value="<?php echo esc_attr( $product['id'] ); ?>">
+                                <?php wp_nonce_field( 'delete_product_' . $product['id'], 'delete_nonce' ); ?>
+                                <button type="button" data-id="<?php echo esc_attr( $product['id'] ); ?>" data-nonce="<?php echo wp_create_nonce( 'delete_product_' . $product['id'] )?>" class="button delete-product">
+                                    <span class="dashicons dashicons-trash"></span> Delete
+                                </button>
+                                <input type="hidden" name="duplicate_category" value="<?php echo esc_attr( $product['category'] ); ?>">
+                                <input type="hidden" name="duplicate_item" value="<?php echo esc_html( $product['item'] ); ?>">
+                                <input type="hidden" name="duplicate_size" value="<?php echo esc_attr( $product['size'] ); ?>">
+                                 <?php wp_nonce_field( 'duplicate_product_' . $product['id'], 'duplicate_nonce' ); ?>
+                                <button type="button" data-id="<?php echo esc_attr( $product['id'] ); ?>" data-nonce="<?php echo wp_create_nonce( 'duplicate_product_' . $product['id'] )?>" class="button duplicate-product">
+                                   <span class="dashicons dashicons-admin-page"></span> Duplicate
+                                </button>
+                                <input type="hidden" name="edit_id" value="<?php echo esc_attr( $product['id'] ); ?>">
+                                <?php wp_nonce_field( 'edit_product_' . $product['id'], 'edit_nonce' ); ?>
+                                <button type="submit" name="edit_product" class="button edit-product" data-nonce="<?php echo wp_create_nonce( 'edit_product_' . $product['id'] ); ?>">
+                                    <span class="dashicons dashicons-edit"></span> Edit
+                                </button>
                             </td>
                         </tr>
                         <?php

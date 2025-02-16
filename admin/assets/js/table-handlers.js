@@ -83,15 +83,37 @@ function handleSaveClick(event) {
         discount: cells[4].querySelector('.edit-discount').value // Get value from .edit-discount
     };
 
-  console.log(updatedValues);
+    // Get the nonce from the clicked button
+    const nonce = this.dataset.nonce;
 
-    // Send AJAX request to update the product
-    fetch('../admin/update-product.php', {
+  // Basic client-side validation
+    if (!updatedValues.category || !updatedValues.item || !updatedValues.quantity_min || !updatedValues.price) {
+        displayError('Please fill in all required fields.');
+        return; // Stop execution if validation fails
+    }
+
+    if (isNaN(updatedValues.quantity_min) || isNaN(updatedValues.price) ) {
+        displayError('Quantity Min and Price must be numeric.');
+        return; // Stop execution if validation fails
+    }
+  
+    if (updatedValues.quantity_max && isNaN(updatedValues.quantity_max)) {
+      displayError('Quantity Max must be numeric.');
+      return;
+    }
+
+    if (updatedValues.discount && isNaN(updatedValues.discount)) {
+      displayError('Discount must be numeric.');
+      return;
+    }
+
+   // Send AJAX request to update the product
+    fetch(ajax_object.ajax_url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedValues),
+        body: JSON.stringify(Object.assign(updatedValues, { edit_nonce: nonce, action: 'update_product' })),
     })
     .then(response => response.json())
     .then(data => {
@@ -101,16 +123,17 @@ function handleSaveClick(event) {
             cells[2].textContent = updatedValues.item;
             cells[3].textContent = updatedValues.size;
             
-            let priceBreakString = '';
-            if (updatedValues.quantity_max !== null && updatedValues.quantity_max !== "") {
-                priceBreakString = `${updatedValues.quantity_min}-${updatedValues.quantity_max} = $${updatedValues.price}`;
-            } else {
-                priceBreakString = `${updatedValues.quantity_min}+ = $${updatedValues.price}`;
-            }
-            if (parseFloat(updatedValues.discount) > 0 ) {
-              const discounted_price = updatedValues.price - (updatedValues.price * updatedValues.discount);
-              priceBreakString += ' (Discount: ' + (updatedValues.discount * 100) + '% = $' + discounted_price.toFixed(2) + ')';
-            }
+            //let priceBreakString = '';
+            //if (updatedValues.quantity_max !== null && updatedValues.quantity_max !== "") {
+            //    priceBreakString = `${updatedValues.quantity_min}-${updatedValues.quantity_max} = $${updatedValues.price}`;
+            //} else {
+            //    priceBreakString = `${updatedValues.quantity_min}+ = $${updatedValues.price}`;
+            //}
+            //if (parseFloat(updatedValues.discount) > 0 ) {
+            //  const discounted_price = updatedValues.price - (updatedValues.price * updatedValues.discount);
+            //  priceBreakString += ' (Discount: ' + (updatedValues.discount * 100) + '% = $' + discounted_price.toFixed(2) + ')';
+            //}
+			//const priceBreakString = formatPriceBreak(updatedValues.quantity_min, updatedValues.quantity_max, updatedValues.price, updatedValues.discount);
             cells[4].textContent = priceBreakString;
 
             // Change "Save" back to "Edit"
@@ -120,13 +143,79 @@ function handleSaveClick(event) {
             saveButton.removeEventListener('click', handleSaveClick);
             saveButton.addEventListener('click', handleEditClick);
         } else {
-            // Handle error
-            alert('Error updating product: ' + data.message);
+            // Handle error: Display error message in the designated area
+            const errorMessageDiv = document.getElementById('error-message');
+            if (errorMessageDiv) {
+                errorMessageDiv.textContent = 'Error updating product: ' + data.message;
+            } else {
+                alert('Error updating product: ' + data.message); // Fallback to alert if div not found
+            }
         }
     })
     .catch(error => {
-        // Handle fetch error
-        alert('Error updating product: ' + error);
+        // Handle fetch error: Display error message in the designated area
+        const errorMessageDiv = document.getElementById('error-message');
+        if (errorMessageDiv) {
+            errorMessageDiv.textContent = 'Error updating product: ' + error;
+        } else {
+            alert('Error updating product: ' + error); // Fallback to alert if div not found
+        }
+    });
+}
+
+// Function to handle the "Delete" button click (AJAX)
+function handleDeleteClick(event) {
+  event.preventDefault();
+  const productId = this.dataset.id;
+  const nonce = this.dataset.nonce;
+
+  if (confirm('Are you sure you want to delete this product?')) {
+    fetch(ajax_object.ajax_url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id: productId, delete_nonce: nonce, action: 'delete_product' }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        // Remove the row from the table
+        this.closest('tr').remove();
+      } else {
+        displayError('Error deleting product: ' + data.message);
+      }
+    })
+    .catch(error => {
+      displayError('Error deleting product: ' + error);
+    });
+  }
+}
+
+// Function to handle the "Duplicate" button click (AJAX)
+function handleDuplicateClick(event) {
+    event.preventDefault();
+    const productId = this.dataset.id;
+    const nonce = this.dataset.nonce;
+
+    fetch(ajax_object.ajax_url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: productId, duplicate_nonce: nonce, action: 'duplicate_product' }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            //Ideally this would insert the new item into the table, but a refresh is easier for now.
+            location.reload();
+        } else {
+            displayError('Error duplicating product: ' + data.message);
+        }
+    })
+     .catch(error => {
+        displayError('Error duplicating product: ' + error);
     });
 }
 
@@ -136,16 +225,15 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', handleEditClick);
     });
 
-    // Select all functionality
-    const selectAllCheckbox = document.getElementById('select-all-products');
-    if (selectAllCheckbox) {
-        selectAllCheckbox.addEventListener('change', function() {
+   // Select all functionality using event delegation
+    document.addEventListener('change', function(event) {
+        if (event.target.id === 'select-all-products') {
             const checkboxes = document.querySelectorAll('.product-checkbox');
             checkboxes.forEach(checkbox => {
-                checkbox.checked = selectAllCheckbox.checked;
+                checkbox.checked = event.target.checked;
             });
-        });
-    }
+        }
+    });
 
     // Bulk actions
     const bulkActionButton = document.getElementById('doaction2'); // Assuming this is the correct button
@@ -199,5 +287,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 row.classList.remove('row-selected');
             }
         });
+    });
+  // Attach event listeners to all "Delete" buttons using event delegation.
+    document.querySelector('.products').addEventListener('click', function(event) {
+        if (event.target.classList.contains('delete-product')) {
+            handleDeleteClick.call(event.target, event);
+        }
+    });
+
+  // Attach event listeners to all "Duplicate" buttons using event delegation.
+    document.querySelector('.products').addEventListener('click', function(event) {
+        if (event.target.classList.contains('duplicate-product')) {
+            handleDuplicateClick.call(event.target, event);
+        }
     });
 });
