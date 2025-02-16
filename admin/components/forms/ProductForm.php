@@ -6,9 +6,12 @@
  * @param array $available_sizes An array of available product sizes.
  */
 function display_product_form( $available_categories, $available_sizes ) {
-    echo '<div class="add-product-section">';
+    echo '<div class="accordion-section">';
+    echo '<div class="accordion-trigger" data-target="add-product-form">';
     echo '<h2>Add New Product</h2>';
-    echo '<form id="add-product-form" class="filter-form">';
+    echo '</div>';
+    echo '<div id="add-product-form" class="accordion-content" style="display: none;">';
+    echo '<form class="filter-form">';
 
     // Add nonce field for security
     wp_nonce_field( 'add_product', 'add_product_nonce' );
@@ -81,6 +84,7 @@ function display_product_form( $available_categories, $available_sizes ) {
     echo '</div>';
     
     echo '</form>'; // Close form
-    echo '</div>'; // Close add-product-section
+    echo '</div>'; // Close accordion-content
+    echo '</div>'; // Close accordion-section
 }
 ?>

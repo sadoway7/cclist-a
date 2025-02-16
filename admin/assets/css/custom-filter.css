@@ -1,9 +1,68 @@
+/* Accordion Styling */
+.accordion-section {
+    background: #fff;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid #ddd;
+}
+
+.accordion-trigger {
+    width: 100%;
+    text-align: left;
+    padding: 15px 20px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.accordion-trigger h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1d2327;
+}
+
+.accordion-trigger::after {
+    content: '';
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #50575e;
+    transition: transform 0.3s ease;
+}
+
+.accordion-trigger:hover {
+    background-color: #f0f0f1;
+}
+
+.accordion-section.active .accordion-trigger::after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.accordion-content {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease-out;
+}
+
+.accordion-section.active .accordion-content {
+    max-height: 2000px;
+    transition: max-height 0.5s ease-in;
+}
+
+/* Filter Form Styling */
 .filter-form {
     padding: 20px;
     background: #fff;
-    border: 1px solid #ddd;
     border-radius: 4px;
-    margin-bottom: 20px;
 }
 
 /* Main layout */

@@ -106,6 +106,25 @@ function handleAddProduct(event) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize accordion functionality
+    const accordionTriggers = document.querySelectorAll('.accordion-trigger');
+    accordionTriggers.forEach(trigger => {
+        trigger.addEventListener('click', function() {
+            const section = this.closest('.accordion-section');
+            const allSections = document.querySelectorAll('.accordion-section');
+            
+            // Close all other sections
+            allSections.forEach(otherSection => {
+                if (otherSection !== section) {
+                    otherSection.classList.remove('active');
+                }
+            });
+            
+            // Toggle current section
+            section.classList.toggle('active');
+        });
+    });
+
     // Attach event listener to the "Add Product" submit button
     const submitProductBtn = document.getElementById('submit-add-product');
     if (submitProductBtn) {

@@ -6,6 +6,11 @@
  * @param array $available_sizes An array of available product sizes.
  */
 function display_filter_form( $available_categories, $available_sizes = array() ) {
+    echo '<div class="accordion-section">';
+    echo '<div class="accordion-trigger" data-target="filter-product-form">';
+    echo '<h2>Filter Products</h2>';
+    echo '</div>';
+    echo '<div id="filter-product-form" class="accordion-content" style="display: none;">';
     echo '<form method="get" class="filter-form">';
     echo '<input type="hidden" name="page" value="product-management" />';
     // Add nonce for security
@@ -97,5 +102,7 @@ function display_filter_form( $available_categories, $available_sizes = array() 
     echo '</div>'; // Close filter-row
 
     echo '</form>';
+    echo '</div>'; // Close accordion-content
+    echo '</div>'; // Close accordion-section
 }
 ?>
