@@ -94,7 +94,7 @@ function handleAddProduct(event) {
             // Display a success message
             displayError('Product added successfully!');
             // Reload the product list to show the new product
-            // location.reload();
+            location.reload();
         } else {
             displayError('Error adding product: ' + (data.data || data.message));
         }

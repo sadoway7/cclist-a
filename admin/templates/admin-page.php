@@ -205,7 +205,7 @@ function display_product_management_page() {
     wp_enqueue_style( 'cc-product-management-tables', plugin_dir_url( __FILE__ ) . '../assets/css/tables.css' );
   
      // Enqueue scripts
-   //  wp_enqueue_script( 'cc-product-management-form-handlers', plugin_dir_url( __FILE__ ) . '../assets/js/form-handlers.js', array( 'jquery' ), '1.0', true );?>
+    wp_enqueue_script( 'cc-product-management-form-handlers', plugin_dir_url( __FILE__ ) . '../assets/js/form-handlers.js', array( 'jquery' ), '1.0', true );?>
     <?php
 }
 
