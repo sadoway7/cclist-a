@@ -133,8 +133,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Dynamic filter handling
-    const filterCheckboxes = document.querySelectorAll('input[name="filter_selector[]"]');
+    // Dynamic filter handling - Removed
+    /*const filterCheckboxes = document.querySelectorAll('input[name="filter_selector[]"]');
     if (filterCheckboxes.length > 0) {
         function updateFilterVisibility() {
             const selectedFilters = Array.from(document.querySelectorAll('input[name="filter_selector[]"]:checked')).map(checkbox => checkbox.value);
@@ -149,19 +149,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 selectedFilters = ['category', 'size', 'search']; // Update selectedFilters array
             }
-
-            // Hide all filter containers
-            //document.querySelectorAll('[id$=_filter_container]').forEach(container => {
-            //    container.style.display = 'none';
-            //});
-
-            // Show selected filter containers
-            //selectedFilters.forEach(filter => {
-            //    const container = document.getElementById(filter + '_filter_container');
-            //    if (container) {
-            //        container.style.display = 'block';
-            //    }
-            //});
         }
 
         // Attach event listeners to filter checkboxes
@@ -204,5 +191,5 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // The accordion functionality has been removed
         }
-    }
+    }*/
 });
