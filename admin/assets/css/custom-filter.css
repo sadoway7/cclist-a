@@ -44,7 +44,8 @@
 /* Input styling */
 .filter-form input[type="text"],
 .filter-form input[type="number"],
-.filter-form select {
+.filter-form select,
+.filter-form .dropdown-input {
     width: 100%;
     height: 32px;
     padding: 4px 8px;
@@ -57,7 +58,8 @@
 
 .filter-form input[type="text"]:focus,
 .filter-form input[type="number"]:focus,
-.filter-form select:focus {
+.filter-form select:focus,
+.filter-form .dropdown-input:focus {
     border-color: #2271b1;
     box-shadow: 0 0 0 1px #2271b1;
     outline: none;
@@ -71,7 +73,8 @@
 /* Dropdowns */
 #category_filter,
 #size_filter,
-#per_page {
+#per_page,
+.dropdown-input {
     padding-right: 24px;
     appearance: none;
     background-image: url('data:image/svg+xml;charset=US-ASCII,<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h8l-4 4z" fill="%23555"/></svg>');
@@ -224,7 +227,8 @@
 
     .filter-form input[type="text"],
     .filter-form input[type="number"],
-    .filter-form select {
+    .filter-form select,
+    .filter-form .dropdown-input {
         font-size: 16px;
     }
 }
