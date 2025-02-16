@@ -19,7 +19,7 @@ function display_filter_form( $available_categories, $available_sizes = array() 
     echo '</div>';
     echo '</div>';
 
-    // Categories & Size Section
+    // Category Section
     echo '<div class="filter-section">';
     echo '<div id="category_filter_container">';
     echo '<label for="category_filter">Category</label>';
@@ -31,7 +31,10 @@ function display_filter_form( $available_categories, $available_sizes = array() 
     }
     echo '</select>';
     echo '</div>';
+    echo '</div>';
 
+    // Size Section
+    echo '<div class="filter-section">';
     echo '<div id="size_filter_container">';
     echo '<label for="size_filter">Size</label>';
     echo '<select name="size" id="size_filter">';
@@ -44,35 +47,25 @@ function display_filter_form( $available_categories, $available_sizes = array() 
     echo '</div>';
     echo '</div>';
 
-    // Price Range Section
+    // Price Section
     echo '<div class="filter-section">';
+    echo '<label>Price</label>';
     echo '<div class="range-inputs">';
-    echo '<div id="price_min_container">';
-    echo '<label for="price_min">Price</label>';
     echo '<input type="number" step="0.01" name="price_min" id="price_min" value="' . ( isset( $_GET['price_min'] ) ? esc_attr( $_GET['price_min'] ) : '' ) . '" placeholder="Min" />';
-    echo '</div>';
-    echo '<div id="price_max_container">';
-    echo '<label for="price_max">&nbsp;</label>';
     echo '<input type="number" step="0.01" name="price_max" id="price_max" value="' . ( isset( $_GET['price_max'] ) ? esc_attr( $_GET['price_max'] ) : '' ) . '" placeholder="Max" />';
     echo '</div>';
     echo '</div>';
-    echo '</div>';
 
-    // Quantity Range Section
+    // Quantity Section
     echo '<div class="filter-section">';
+    echo '<label>Quantity</label>';
     echo '<div class="range-inputs">';
-    echo '<div id="quantity_min_container">';
-    echo '<label for="quantity_min_filter">Quantity</label>';
     echo '<input type="number" name="quantity_min" id="quantity_min_filter" value="' . ( isset( $_GET['quantity_min'] ) ? esc_attr( $_GET['quantity_min'] ) : '' ) . '" placeholder="Min" />';
-    echo '</div>';
-    echo '<div id="quantity_max_container">';
-    echo '<label for="quantity_max_filter">&nbsp;</label>';
     echo '<input type="number" name="quantity_max" id="quantity_max_filter" value="' . ( isset( $_GET['quantity_max'] ) ? esc_attr( $_GET['quantity_max'] ) : '' ) . '" placeholder="Max" />';
     echo '</div>';
     echo '</div>';
-    echo '</div>';
 
-    // Options Section
+    // Show Section
     echo '<div class="filter-section">';
     echo '<div id="per_page_container">';
     echo '<label for="per_page">Show</label>';
@@ -86,15 +79,14 @@ function display_filter_form( $available_categories, $available_sizes = array() 
     echo '</div>';
 
     echo '<div id="discount_only_container">';
-    echo '<label for="discount_filter">&nbsp;</label>';
     echo '<input type="checkbox" name="discount_only" id="discount_filter" value="1" ' . ( isset( $_GET['discount_only'] ) && $_GET['discount_only'] == '1' ? 'checked' : '' ) . '/>';
     echo '<label for="discount_filter">Discounted only</label>';
     echo '</div>';
     echo '</div>';
 
-    // Buttons Section
+    // Buttons
     echo '<div class="button-group">';
-    echo '<input type="submit" class="button button-primary" value="Apply Filters" />';
+    echo '<button type="submit" class="button button-primary">Apply Filters</button>';
     echo '<button type="button" id="remove_selected_filters" class="button">Reset</button>';
     echo '</div>';
 
