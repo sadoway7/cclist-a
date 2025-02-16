@@ -106,22 +106,19 @@ function handleAddProduct(event) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize accordion functionality
-    const accordionTriggers = document.querySelectorAll('.accordion-trigger');
-    accordionTriggers.forEach(trigger => {
+    // Initialize dropdown functionality
+    const dropdownTriggers = document.querySelectorAll('.accordion-trigger');
+    dropdownTriggers.forEach(trigger => {
         trigger.addEventListener('click', function() {
             const section = this.closest('.accordion-section');
-            const allSections = document.querySelectorAll('.accordion-section');
-            
-            // Close all other sections
-            allSections.forEach(otherSection => {
-                if (otherSection !== section) {
-                    otherSection.classList.remove('active');
-                }
-            });
-            
-            // Toggle current section
-            section.classList.toggle('active');
+            const content = section.querySelector('.accordion-content');
+
+            // Toggle display of content
+            if (content.style.display === 'block') {
+                content.style.display = 'none';
+            } else {
+                content.style.display = 'block';
+            }
         });
     });
 
