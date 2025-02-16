@@ -9,7 +9,7 @@ function display_product_form( $available_categories, $available_sizes ) {
     ?>
     <input type="radio" name="product_form_toggle" id="add_product_toggle" style="display:none;">
     <label for="add_product_toggle" style="cursor: pointer; display: block; padding: 10px; background-color: #f0f0f1; border: 1px solid #ddd;">
-        <h2>Add New Product</h2>
+        Add New Product
     </label>
     <fieldset style="border: 1px solid #ddd; padding: 10px; margin-bottom: 20px;">
         <form id="add-product-form" class="filter-form">

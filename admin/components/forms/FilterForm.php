@@ -9,7 +9,7 @@ function display_filter_form( $available_categories, $available_sizes = array() 
     ?>
     <input type="radio" name="product_form_toggle" id="filter_product_toggle" style="display:none;">
     <label for="filter_product_toggle" style="cursor: pointer; display: block; padding: 10px; background-color: #f0f0f1; border: 1px solid #ddd;">
-        <h2>Filter Products</h2>
+        Filter Products
     </label>
     <fieldset style="border: 1px solid #ddd; padding: 10px; margin-bottom: 20px;">
         <form method="get" class="filter-form">
