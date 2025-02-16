@@ -6,17 +6,17 @@
  * @param array $available_sizes An array of available product sizes.
  */
 function display_filter_form( $available_categories, $available_sizes = array() ) {
-    echo '<div class="accordion-section">';
-    echo '<div class="accordion-trigger" data-target="filter-product-form">';
-    echo '<h2>Filter Products</h2>';
-    echo '</div>';
-    echo '<div id="filter-product-form" class="accordion-content" style="display: none;">';
-    echo '<form method="get" class="filter-form">';
-    echo '<input type="hidden" name="page" value="product-management" />';
-    // Add nonce for security
-    wp_nonce_field( 'filter_products', 'filter_nonce' );
+    ?>
+    <input type="radio" name="product_form_toggle" id="filter_product_toggle" style="display:none;">
+    <label for="filter_product_toggle" style="cursor: pointer; display: block; padding: 10px; background-color: #f0f0f1; border: 1px solid #ddd;">
+        <h2>Filter Products</h2>
+    </label>
+    <fieldset style="border: 1px solid #ddd; padding: 10px; margin-bottom: 20px;">
+        <form method="get" class="filter-form">
+        <input type="hidden" name="page" value="product-management" />
+        <?php wp_nonce_field( 'filter_products', 'filter_nonce' ); ?>
 
-    // Search Row
+        <!-- Search Row -->
     echo '<div class="filter-row">';
     echo '<div class="search-section">';
     echo '<label for="search">SEARCH</label>';
@@ -102,7 +102,7 @@ function display_filter_form( $available_categories, $available_sizes = array() 
     echo '</div>'; // Close filter-row
 
     echo '</form>';
-    echo '</div>'; // Close accordion-content
-    echo '</div>'; // Close accordion-section
+    ?>
+    </fieldset>
+    <?php
 }
-?>

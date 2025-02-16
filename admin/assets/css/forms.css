@@ -60,11 +60,6 @@
 .accordion-content {
     padding: 20px;
     border-top: 1px solid #ddd;
-    display: none; /* Initially hide the content */
-}
-
-.accordion-section.active .accordion-content {
-    display: block; /* Show content when active */
 }
 
 /* Submit Button Container */
@@ -81,4 +76,14 @@
     border-color: #2271b1;
     box-shadow: 0 0 0 1px #2271b1;
     outline: 2px solid transparent;
+}
+
+/* Initially hide the fieldsets */
+fieldset {
+    display: none;
+}
+
+/* Show fieldset when the radio button is checked */
+input[type="radio"]:checked + label + fieldset {
+    display: block;
 }

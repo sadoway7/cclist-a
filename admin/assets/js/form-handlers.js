@@ -106,23 +106,6 @@ function handleAddProduct(event) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize accordion functionality
-    const accordionTriggers = document.querySelectorAll('.accordion-trigger');
-    accordionTriggers.forEach(trigger => {
-        trigger.addEventListener('click', function() {
-            const section = this.closest('.accordion-section');
-            const content = section.querySelector('.accordion-content');
-
-            // Toggle display of content
-            if (content.style.display === 'block') {
-                content.style.display = 'none';
-                section.classList.remove('active'); // Remove active class
-            } else {
-                content.style.display = 'block';
-                section.classList.add('active'); // Add active class
-            }
-        });
-    });
 
     // Attach event listener to the "Add Product" submit button
     const submitProductBtn = document.getElementById('submit-add-product');
@@ -218,6 +201,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     filterForm.submit();
                 }
             });
+            
+            // The accordion functionality has been removed
         }
     }
 });

@@ -6,17 +6,17 @@
  * @param array $available_sizes An array of available product sizes.
  */
 function display_product_form( $available_categories, $available_sizes ) {
-    echo '<div class="accordion-section">';
-    echo '<div class="accordion-trigger" data-target="add-product-form">';
-    echo '<h2>Add New Product</h2>';
-    echo '</div>';
-    echo '<div class="accordion-content">';
-    echo '<form id="add-product-form" class="filter-form">';
+    ?>
+    <input type="radio" name="product_form_toggle" id="add_product_toggle" style="display:none;">
+    <label for="add_product_toggle" style="cursor: pointer; display: block; padding: 10px; background-color: #f0f0f1; border: 1px solid #ddd;">
+        <h2>Add New Product</h2>
+    </label>
+    <fieldset style="border: 1px solid #ddd; padding: 10px; margin-bottom: 20px;">
+        <form id="add-product-form" class="filter-form">
 
-    // Add nonce field for security
-    wp_nonce_field( 'add_product', 'add_product_nonce' );
+        <?php wp_nonce_field( 'add_product', 'add_product_nonce' ); ?>
 
-    // First row: Category, Item, Size
+        <!-- First row: Category, Item, Size -->
     echo '<div class="filter-row">';
     
     // Category Input with Datalist
@@ -81,10 +81,10 @@ function display_product_form( $available_categories, $available_sizes ) {
     echo '<div class="button-group" style="margin-left: auto;">';
     echo '<button type="button" id="submit-add-product" class="button-primary">Add Product</button>';
     echo '</div>';
-    echo '</div>';
-    
-    echo '</form>'; // Close form
-    echo '</div>'; // Close accordion-content
-    echo '</div>'; // Close accordion-section
+        echo '</div>';
+        ?>
+        </form>
+    </fieldset>
+    <?php
 }
 ?>
