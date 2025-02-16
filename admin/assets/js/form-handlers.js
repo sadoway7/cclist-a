@@ -144,20 +144,31 @@ document.addEventListener('DOMContentLoaded', function() {
         container.style.display = 'block';
       }
     });
-  });
+
+      // Show selected filter containers
+      selectedFilters.forEach(filter => {
+        const container = document.getElementById(filter + '_filter_container');
+        if (container) {
+          container.style.display = 'block';
+        }
+      });
+      //trigger after logic
+      filterSelector.dispatchEvent(new Event('change'));
+    });
 
   // Trigger change on load to handle any pre-selected filters, and set defaults if none selected
-  if (filterSelector.selectedOptions.length === 0) {
-    // Set default selections if none are selected
-    ['category', 'size', 'search'].forEach(filter => {
-      const option = filterSelector.querySelector(`option[value="${filter}"]`);
-      if (option) {
-        option.selected = true;
-      }
-    });
+    if (filterSelector.selectedOptions.length === 0) {
+      // Set default selections if none are selected
+      ['category', 'size', 'search'].forEach(filter => {
+        const option = filterSelector.querySelector(`option[value="${filter}"]`);
+        if (option) {
+          option.selected = true;
+        }
+      });
+      filterSelector.dispatchEvent(new Event('change'));
+    }
+
   }
-  filterSelector.dispatchEvent(new Event('change'));
-}
 
   // Add event listener for "Remove Selected Filters" button
   const removeFiltersButton = document.getElementById('remove_selected_filters');
