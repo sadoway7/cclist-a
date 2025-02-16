@@ -16,7 +16,7 @@ function handleAddProduct(event) {
     event.preventDefault();
 
     // Collect form data
-    const form = document.getElementById('add-product-form');
+    const form = document.querySelector('.cc-product-management #add-product-form');
     const formData = {
         category: form.querySelector('#category').value.trim(),
         item: form.querySelector('#item').value.trim(),
@@ -108,24 +108,24 @@ function handleAddProduct(event) {
 document.addEventListener('DOMContentLoaded', function() {
 
     // Attach event listener to the "Add Product" submit button
-    const submitProductBtn = document.getElementById('submit-add-product');
+    const submitProductBtn = document.querySelector('.cc-product-management #submit-add-product');
     if (submitProductBtn) {
         submitProductBtn.addEventListener('click', handleAddProduct);
     }
 
     // JSON validation for import form
-    var importTextarea = document.getElementById('import_data');
-    var jsonPreview = document.getElementById('json-preview');
-    var isValidInput = document.getElementById('is_json_valid');
+    var importTextarea = document.querySelector('.cc-product-management #import_data');
+    var jsonPreview = document.querySelector('.cc-product-management #json-preview');
+    var isValidInput = document.querySelector('.cc-product-management #is_json_valid');
 
     if (importTextarea && jsonPreview && isValidInput) {
         importTextarea.addEventListener('input', function() {
             try {
                 var parsed = JSON.parse(importTextarea.value);
-                jsonPreview.textContent = JSON.stringify(parsed, null, 2); // Pretty print JSON
+                jsonPreview.textContent = JSON.stringify(parsed, null, 2);
                 jsonPreview.style.color = 'green';
                 isValidInput.value = '1';
-            } catch (error) {
+             } catch (error) {
                 jsonPreview.textContent = 'Invalid JSON: ' + error.message;
                 jsonPreview.style.color = 'red';
                 isValidInput.value = '0';
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (removeFiltersButton) {
             removeFiltersButton.addEventListener('click', function() {
                 // Reset all form inputs
-                const filterForm = document.querySelector('.filter-form');
+                const filterForm = document.querySelector('.cc-product-management .filter-form');
                 if (filterForm) {
                     // Clear text and number inputs
                     filterForm.querySelectorAll('input[type="text"], input[type="number"]').forEach(input => {
