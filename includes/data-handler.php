@@ -72,9 +72,9 @@ function get_products($filters = array(), $sort_by = 'category', $sort_order = '
     // The ORDER BY clause now uses the sanitized variables
     $order_by_clause = "ORDER BY $sort_by $sort_order";
 
-    // If sorting by category, also sort by item, size, and quantity_min
+    // If sorting by category, also sort by item and quantity_min
     if ($sort_by === 'category') {
-      $order_by_clause .= ', item ASC, size ASC, quantity_min ASC';
+      $order_by_clause .= ', item ASC, quantity_min ASC';
     }
 
     // Calculate offset

@@ -51,7 +51,7 @@ function display_product_table( $products, $sort_by = 'category', $sort_order = 
                 if ( ! empty( $products ) ) :
                     $last_item_key = ''; // Keep track of the previous item
                     foreach ( $products as $product ) :
-                        $item_key = $product['category'] . '_' . $product['item'] . '_' . $product['size'];
+                        $item_key = $product['category'] . '_' . $product['item'];
                         $is_new_item = $item_key !== $last_item_key;
 
                         ?>
@@ -63,7 +63,6 @@ function display_product_table( $products, $sort_by = 'category', $sort_order = 
                                 <td><?php echo esc_html( $product['item'] ); ?></td>
                                 <td><?php echo esc_html( $product['size'] ); ?></td>
                             <?php else : ?>
-                                <td></td>
                                 <td></td>
                                 <td></td>
                             <?php endif; ?>
