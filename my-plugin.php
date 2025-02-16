@@ -2,7 +2,7 @@
 /**
  * Plugin Name: cclist-admin
  * Description: Product management plugin.
- * Version: 0.1.5.89
+ * Version: 0.1.5.90
  * GitHub Plugin URI: sadoway7/cclist-a
  * GitHub Plugin URI: https://github.com/sadoway7/cclist-a.git
  */

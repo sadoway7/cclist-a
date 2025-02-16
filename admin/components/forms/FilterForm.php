@@ -6,18 +6,18 @@
  * @param array $available_sizes An array of available product sizes.
  */
 function display_filter_form( $available_categories, $available_sizes = array() ) {
-    ?>
-    <input type="radio" name="product_form_toggle" id="filter_product_toggle" style="display:none;">
-    <label for="filter_product_toggle" style="cursor: pointer; display: block; padding: 10px; background-color: #f0f0f1; border: 1px solid #ddd;">
-        Filter Products
-    </label>
-    <fieldset style="border: 1px solid #ddd; padding: 10px; margin-bottom: 20px;">
-        <form method="get" class="filter-form">
-        <input type="hidden" name="page" value="product-management" />
-        <?php wp_nonce_field( 'filter_products', 'filter_nonce' ); ?>
+    echo '<div class="accordion-section">';
+    echo '<div class="accordion-trigger" data-target="filter-product-form">';
+    echo '<h2>Filter Products</h2>';
+    echo '</div>';
+    echo '<div id="filter-product-form" class="accordion-content" style="display: none;">';
+    echo '<form method="get" class="filter-form">';
+    echo '<input type="hidden" name="page" value="product-management" />';
+    // Add nonce for security
+    wp_nonce_field( 'filter_products', 'filter_nonce' );
 
-        <!-- Search Row -->
-    <?php echo '<div class="filter-row">';
+    // Search Row
+    echo '<div class="filter-row">';
     echo '<div class="search-section">';
     echo '<label for="search">SEARCH</label>';
     echo '<input type="text" name="search" id="search" value="' . ( isset( $_GET['search'] ) ? esc_attr( $_GET['search'] ) : '' ) . '" placeholder="Search products..." />';
@@ -101,7 +101,7 @@ function display_filter_form( $available_categories, $available_sizes = array() 
     echo '</div>'; // Close options-section
     echo '</div>'; // Close filter-row
 
-    echo '</form>'; ?>
-    </fieldset>
-    <?php
+    echo '</form>';
+    echo '</div>'; // Close accordion-content
+    echo '</div>'; // Close accordion-section
 }
