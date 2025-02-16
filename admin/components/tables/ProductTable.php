@@ -49,23 +49,59 @@ function display_product_table( $products, $sort_by = 'category', $sort_order = 
             <tbody>
                 <?php
                 if ( ! empty( $products ) ) :
-                    $last_item_key = ''; // Keep track of the previous item
-                    foreach ( $products as $product ) :
+                    // Pre-calculate rowspans
+                    $category_counts = array();
+                    $item_counts = array();
+
+                    foreach ( $products as $product ) {
+                        $category_key = $product['category'];
                         $item_key = $product['category'] . '_' . $product['item'];
-                        $is_new_item = $item_key !== $last_item_key;
+
+                        if ( ! isset( $category_counts[ $category_key ] ) ) {
+                            $category_counts[ $category_key ] = 0;
+                        }
+                        $category_counts[ $category_key ]++;
+
+                        if ( ! isset( $item_counts[ $item_key ] ) ) {
+                            $item_counts[ $item_key ] = 0;
+                        }
+                        $item_counts[ $item_key ]++;
+                    }
+
+
+                    $last_category = '';
+                    $last_item = '';
+                    $category_rowspan = 0;
+                    $item_rowspan = 0;
+
+                    foreach ( $products as $product ) :
+                        $new_category = $product['category'] !== $last_category;
+                        $new_item = $product['category'] . $product['item'] !== $last_category . $last_item;
+
+                        if ( $new_category ) {
+                            $category_rowspan = $category_counts[$product['category']];
+                        }
+
+                        if ( $new_item ) {
+                            $item_rowspan = $item_counts[$product['category'] . '_' . $product['item']];
+                        }
 
                         ?>
-                        <tr class="<?php echo $is_new_item ? 'new-item-group' : 'sub-item'; ?>">
+                        <tr>
                             <td><input type="checkbox" name="product_ids[]" value="<?php echo esc_attr( $product['id'] ); ?>" class="product-checkbox"></td>
-                            <?php // Only display category, item, and size if it's a new item
-                            if ( $is_new_item ) : ?>
-                                <td><?php echo esc_html( $product['category'] ); ?></td>
-                                <td><?php echo esc_html( $product['item'] ); ?></td>
-                                <td><?php echo esc_html( $product['size'] ); ?></td>
-                            <?php else : ?>
-                                <td></td>
-                                <td></td>
+                            <?php
+                            // Category
+                            if ( $new_category ) : ?>
+                                <td rowspan="<?php echo $category_rowspan ?>"><?php echo esc_html( $product['category'] ); ?></td>
                             <?php endif; ?>
+
+                            <?php
+                            // Item
+                            if ( $new_item ) : ?>
+                                <td rowspan="<?php echo $item_rowspan ?>"><?php echo esc_html( $product['item'] ); ?></td>
+                            <?php endif; ?>
+
+                            <td><?php echo esc_html( $product['size'] ); ?></td>
                             <td>
                                 <?php
                                 $price_break_string = '';
@@ -102,7 +138,8 @@ function display_product_table( $products, $sort_by = 'category', $sort_order = 
                             </td>
                         </tr>
                         <?php
-                        $last_item_key = $item_key; // Update the last item key
+                        $last_category = $product['category'];
+                        $last_item = $product['item'];
                     endforeach;
                 else : ?>
                     <tr>
