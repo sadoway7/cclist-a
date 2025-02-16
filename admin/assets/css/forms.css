@@ -80,7 +80,6 @@
 
 /* Initially hide the fieldsets */
 .cc-product-management fieldset {
-    display: none;
 }
 
 /* Show fieldset when the radio button is checked */
