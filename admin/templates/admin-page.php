@@ -95,11 +95,11 @@ function display_product_management_page() {
     $available_categories = get_available_categories();
     $available_sizes = get_available_sizes();
 
-    echo '<div class="wrap cc-product-management">';
+    echo '<div class="wrap">';
     echo '<h1>Product Management</h1>';
 
-     // Display any messages
-    echo  $messages ;
+    // Display any messages
+    echo $messages;
 
     // --- Add Product Form ---
     echo '<div class="add-product-section">';
@@ -205,7 +205,7 @@ function display_product_management_page() {
     wp_enqueue_style( 'cc-product-management-tables', plugin_dir_url( __FILE__ ) . '../assets/css/tables.css' );
   
      // Enqueue scripts
-    wp_enqueue_script( 'cc-product-management-form-handlers', plugin_dir_url( __FILE__ ) . '../assets/js/form-handlers.js', array( 'jquery' ), '1.0', true );?>
+   //  wp_enqueue_script( 'cc-product-management-form-handlers', plugin_dir_url( __FILE__ ) . '../assets/js/form-handlers.js', array( 'jquery' ), '1.0', true );?>
     <?php
 }
 
