@@ -206,7 +206,9 @@ function get_available_sizes() {
 /**
  * Adds a new product to the database.
  *
- * @param array $product The product data.
+ * This function should add products in the same way as the manual add form.
+ *
+ * @param array $product The product data (category, item, size, quantity_min, quantity_max, price, discount).
  * @return bool True on success, false on failure.
  */
 function add_product($product) {
@@ -215,15 +217,17 @@ function add_product($product) {
     return (bool) $wpdb->insert(
         $table_name,
         array(
-            'category' => $product['category'],
-            'item' => $product['item'],
-            'size' => $product['size'],
+            'category'     => $product['category'],
+            'item'         => $product['item'],
+            'size'         => $product['size'],
             'quantity_min' => $product['quantity_min'],
             'quantity_max' => $product['quantity_max'],
-            'price' => $product['price'],
-            'discount' => isset($product['discount']) ? $product['discount'] : null,
+            'price'        => $product['price'],
+            'discount'     => isset($product['discount']) ? $product['discount'] : 0,
         ),
-        array('%s', '%s', '%s', '%d', '%d', '%f', '%f')
+        array(
+            '%s', '%s', '%s', '%d', '%s', '%f', '%f'
+        )
     );
 }
 
@@ -231,7 +235,7 @@ function add_product($product) {
  * Updates an existing product in the database.
  *
  * @param int   $id      The product ID.
- * @param array $product The updated product data.
+ * @param array $product The updated product data (category, item, size, quantity_min, quantity_max, price, discount).
  * @return bool True on success, false on failure.
  */
 function update_product($id, $product) {
@@ -240,16 +244,18 @@ function update_product($id, $product) {
     return (bool) $wpdb->update(
         $table_name,
         array(
-            'category' => $product['category'],
-            'item' => $product['item'],
-            'size' => $product['size'],
+            'category'     => $product['category'],
+            'item'         => $product['item'],
+            'size'         => $product['size'],
             'quantity_min' => $product['quantity_min'],
             'quantity_max' => $product['quantity_max'],
-            'price' => $product['price'],
-            'discount' => isset($product['discount']) ? $product['discount'] : null,
+            'price'        => $product['price'],
+            'discount'     => isset($product['discount']) ? $product['discount'] : 0,
         ),
         array('id' => $id),
-        array('%s', '%s', '%s', '%d', '%d', '%f', '%f'),
+        array(
+            '%s', '%s', '%s', '%d', '%s', '%f', '%f'
+        ),
         array('%d')
     );
 }
@@ -272,8 +278,11 @@ function delete_product($id) {
 
 /**
  * Adds a new category to the available categories table.
+ *
+ * @param string $category The category name.
+ * @return bool True on success, false on failure.
  */
-function add_available_category($category){
+function add_available_category($category) {
     global $wpdb;
     $table_name = $wpdb->prefix . 'available_categories';
     if (!$wpdb->get_row($wpdb->prepare("SELECT category FROM $table_name WHERE category = %s", $category))) {
@@ -283,12 +292,15 @@ function add_available_category($category){
 }
 
 /**
- * Adds a new size to the available sizes table
+ * Adds a new size to the available sizes table.
+ *
+ * @param string $size The size.
+ * @return bool True on success, false on failure.
  */
-function add_available_size($size){
+function add_available_size($size) {
     global $wpdb;
     $table_name = $wpdb->prefix . 'available_sizes';
-    if (!$wpdb->get_row($wpdb->prepare("SELECT size FROM $table_name WHERE size = %s", $size))) {
+    if ($size !== null && !$wpdb->get_row($wpdb->prepare("SELECT size FROM $table_name WHERE size = %s", $size))) {
         return (bool) $wpdb->insert($table_name, array('size' => $size), array('%s'));
     }
     return false;
@@ -385,72 +397,5 @@ function import_products($json_data) {
         $message .= " Errors: " . implode(' ', $error_messages);
     }
     return $message;
-}
-
-/**
- * Adds a new product to the database.
- *
- * @param array $product The product data.
- * @return bool True on success, false on failure.
- */
-function add_product($product) {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'products';
-    return (bool) $wpdb->insert(
-        $table_name,
-        array(
-            'category' => $product['category'],
-            'item' => $product['item'],
-            'size' => $product['size'],
-            'quantity_min' => $product['quantity_min'],
-            'quantity_max' => $product['quantity_max'],
-            'price' => $product['price'],
-            'discount' => isset($product['discount']) ? $product['discount'] : null,
-        ),
-        array('%s', '%s', '%s', '%d', '%d', '%f', '%f')
-    );
-}
-
-/**
- * Updates an existing product in the database.
- *
- * @param int   $id      The product ID.
- * @param array $product The updated product data.
- * @return bool True on success, false on failure.
- */
-function update_product($id, $product) {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'products';
-    return (bool) $wpdb->update(
-        $table_name,
-        array(
-            'category' => $product['category'],
-            'item' => $product['item'],
-            'size' => $product['size'],
-            'quantity_min' => $product['quantity_min'],
-            'quantity_max' => $product['quantity_max'],
-            'price' => $product['price'],
-            'discount' => isset($product['discount']) ? $product['discount'] : null,
-        ),
-        array('id' => $id),
-        array('%s', '%s', '%s', '%d', '%d', '%f', '%f'),
-        array('%d')
-    );
-}
-
-/**
- * Deletes a product from the database.
- *
- * @param int $id The product ID.
- * @return bool True on success, false on failure.
- */
-function delete_product($id) {
-    global $wpdb;
-    $table_name = $wpdb->prefix . 'products';
-    return (bool) $wpdb->delete(
-        $table_name,
-        array('id' => $id),
-        array('%d')
-    );
 }
 ?>
