@@ -60,6 +60,24 @@
 .accordion-content {
     padding: 20px;
     border-top: 1px solid #ddd;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.accordion-section.active .accordion-content {
+    max-height: 500px; /* Adjust based on content height */
+}
+
+.accordion-trigger::after {
+    content: '\25BC';
+    position: absolute;
+    right: 20px;
+    transition: transform 0.3s ease;
+}
+
+.accordion-section.active .accordion-trigger::after {
+    transform: rotate(180deg);
 }
 
 /* Submit Button Container */
