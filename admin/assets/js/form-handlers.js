@@ -114,10 +114,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const content = section.querySelector('.accordion-content');
 
             // Toggle display of content
-            if (content.style.display === 'block') {
-                content.style.display = 'none';
-            } else {
+            if (content.style.display === 'none' || content.style.display === '') {
                 content.style.display = 'block';
+            } else {
+                content.style.display = 'none';
             }
         });
     });
