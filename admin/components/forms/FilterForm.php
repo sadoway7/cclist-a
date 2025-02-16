@@ -14,7 +14,7 @@ function display_filter_form( $available_categories, $available_sizes = array() 
     // Search Section
     echo '<div class="filter-section">';
     echo '<div id="search_container">';
-    echo '<label for="search">Search</label>';
+    echo '<label for="search">SEARCH</label>';
     echo '<input type="text" name="search" id="search" value="' . ( isset( $_GET['search'] ) ? esc_attr( $_GET['search'] ) : '' ) . '" placeholder="Search products..." />';
     echo '</div>';
     echo '</div>';
@@ -22,7 +22,7 @@ function display_filter_form( $available_categories, $available_sizes = array() 
     // Category Section
     echo '<div class="filter-section">';
     echo '<div id="category_filter_container">';
-    echo '<label for="category_filter">Category</label>';
+    echo '<label for="category_filter">CATEGORY</label>';
     echo '<select name="category" id="category_filter">';
     echo '<option value="">All Categories</option>';
     foreach ( $available_categories as $category ) {
@@ -36,7 +36,7 @@ function display_filter_form( $available_categories, $available_sizes = array() 
     // Size Section
     echo '<div class="filter-section">';
     echo '<div id="size_filter_container">';
-    echo '<label for="size_filter">Size</label>';
+    echo '<label for="size_filter">SIZE</label>';
     echo '<select name="size" id="size_filter">';
     echo '<option value="">All Sizes</option>';
     foreach ( $available_sizes as $size ) {
@@ -49,7 +49,7 @@ function display_filter_form( $available_categories, $available_sizes = array() 
 
     // Price Section
     echo '<div class="filter-section">';
-    echo '<label>Price</label>';
+    echo '<label>PRICE</label>';
     echo '<div class="range-inputs">';
     echo '<input type="number" step="0.01" name="price_min" id="price_min" value="' . ( isset( $_GET['price_min'] ) ? esc_attr( $_GET['price_min'] ) : '' ) . '" placeholder="Min" />';
     echo '<input type="number" step="0.01" name="price_max" id="price_max" value="' . ( isset( $_GET['price_max'] ) ? esc_attr( $_GET['price_max'] ) : '' ) . '" placeholder="Max" />';
@@ -58,7 +58,7 @@ function display_filter_form( $available_categories, $available_sizes = array() 
 
     // Quantity Section
     echo '<div class="filter-section">';
-    echo '<label>Quantity</label>';
+    echo '<label>QUANTITY</label>';
     echo '<div class="range-inputs">';
     echo '<input type="number" name="quantity_min" id="quantity_min_filter" value="' . ( isset( $_GET['quantity_min'] ) ? esc_attr( $_GET['quantity_min'] ) : '' ) . '" placeholder="Min" />';
     echo '<input type="number" name="quantity_max" id="quantity_max_filter" value="' . ( isset( $_GET['quantity_max'] ) ? esc_attr( $_GET['quantity_max'] ) : '' ) . '" placeholder="Max" />';
@@ -68,7 +68,7 @@ function display_filter_form( $available_categories, $available_sizes = array() 
     // Show Section
     echo '<div class="filter-section">';
     echo '<div id="per_page_container">';
-    echo '<label for="per_page">Show</label>';
+    echo '<label for="per_page">SHOW</label>';
     echo '<select name="per_page" id="per_page">';
     $options = array(10, 25, 50, 100);
     foreach ( $options as $option) {
@@ -80,14 +80,14 @@ function display_filter_form( $available_categories, $available_sizes = array() 
 
     echo '<div id="discount_only_container">';
     echo '<input type="checkbox" name="discount_only" id="discount_filter" value="1" ' . ( isset( $_GET['discount_only'] ) && $_GET['discount_only'] == '1' ? 'checked' : '' ) . '/>';
-    echo '<label for="discount_filter">Discounted only</label>';
+    echo '<label for="discount_filter">DISCOUNTED ONLY</label>';
     echo '</div>';
     echo '</div>';
 
     // Buttons
     echo '<div class="button-group">';
     echo '<button type="submit" class="button button-primary">Apply Filters</button>';
-    echo '<button type="button" id="remove_selected_filters" class="button">Reset</button>';
+    echo '<button type="button" id="remove_selected_filters" class="button-reset">Reset</button>';
     echo '</div>';
 
     echo '</form>';
