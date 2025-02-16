@@ -2,7 +2,7 @@
 /**
  * Plugin Name: cclist-admin
  * Description: Product management plugin.
- * Version: 0.1.4.2
+ * Version: 0.1.4.3
  * GitHub Plugin URI: sadoway7/cclist-a
  * GitHub Plugin URI: https://github.com/sadoway7/cclist-a.git
  */
@@ -124,18 +124,18 @@ function get_products_api() {
 function enqueue_custom_scripts() {
     wp_enqueue_script('jquery');
     wp_enqueue_style( 'admin-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/admin.css' );
-    wp_enqueue_script( 'form-handlers', plugin_dir_url( __FILE__ ) . 'admin/assets/js/form-handlers.js', array( 'jquery' ), '1.0', true );
-    wp_enqueue_script( 'table-handlers', plugin_dir_url( __FILE__ ) . 'admin/assets/js/table-handlers.js', array( 'jquery' ), '1.0', true );
+        wp_enqueue_script( 'form-handlers', plugin_dir_url( __FILE__ ) . 'admin/assets/js/form-handlers.js', array( 'jquery' ), '1.0', true );
+        wp_enqueue_script( 'table-handlers', plugin_dir_url( __FILE__ ) . 'admin/assets/js/table-handlers.js', array( 'jquery' ), '1.0', true );
+        
+        // Pass ajaxurl to both scripts
+        wp_localize_script( 'form-handlers', 'ajaxurl', admin_url( 'admin-ajax.php' ) );
+        wp_localize_script( 'table-handlers', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
     
-    // Pass ajaxurl to both scripts
-    wp_localize_script( 'form-handlers', 'ajaxurl', admin_url( 'admin-ajax.php' ) );
-    wp_localize_script( 'table-handlers', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
-    
-    wp_enqueue_style( 'table-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/tables.css' );
-    wp_enqueue_style( 'form-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/forms.css' );
-    wp_enqueue_style( 'components-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/components.css' );
-    wp_enqueue_style( 'custom-table-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/custom-table.css' );
-    wp_enqueue_style( 'custom-filter-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/custom-filter.css' );
+    		wp_enqueue_style( 'admin-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/tables.css' );
+        wp_enqueue_style( 'admin-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/forms.css' );
+        wp_enqueue_style( 'admin-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/components.css' );
+        wp_enqueue_style( 'admin-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/custom-table.css' );
+        wp_enqueue_style( 'admin-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/custom-filter.css' );
 }
 add_action( 'admin_enqueue_scripts', 'enqueue_custom_scripts' );
 
