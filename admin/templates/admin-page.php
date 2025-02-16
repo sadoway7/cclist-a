@@ -15,8 +15,8 @@ if ( isset( $_POST['import_products'] ) ) {
         $import_result = import_products( $_POST['import_data'] );
         $import_message = '<div class="updated"><p>' . esc_html( $import_result ) . '</p></div>';
      }
-    wp_redirect( add_query_arg( 'import_message', urlencode( $import_message ), menu_page_url( 'product-management', false ) ) );
-    exit;
+    // wp_redirect( add_query_arg( 'import_message', urlencode( $import_message ), menu_page_url( 'product-management', false ) ) ); //Commented to show messages
+    // exit;
 }
 
 // Handle form submission for adding products
