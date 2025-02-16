@@ -1,20 +1,20 @@
-.wrap label {
+.cc-product-management label {
     display: block; /* Labels above inputs */
     margin-bottom: 5px; /* Space between label and input */
     font-weight: bold;
 }
 
-.wrap input[type="text"],
-.wrap input[type="number"],
-.wrap select,
-.wrap textarea {
+.cc-product-management input[type="text"],
+.cc-product-management input[type="number"],
+.cc-product-management select,
+.cc-product-management textarea {
     width: 100%; /* Inputs take full width of their container */
     box-sizing: border-box; /* Include padding and border in width */
     margin-bottom: 10px;
 }
 
 /* Grid Form Layout */
-.grid-form {
+.cc-product-management .grid-form {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
@@ -25,26 +25,26 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.grid-form .form-field {
+.cc-product-management .grid-form .form-field {
     position: relative;
 }
 
 /* Required Field Indicator */
-.required-field label::after {
+.cc-product-management .required-field label::after {
     content: '*';
     color: #d63638;
     margin-left: 4px;
 }
 
 /* Accordion Styling */
-.accordion-section {
+.cc-product-management .accordion-section {
     background: #fff;
     margin-bottom: 30px;
     border-radius: 4px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.accordion-trigger {
+.cc-product-management .accordion-trigger {
     width: 100%;
     text-align: left;
     padding: 15px 20px;
@@ -53,17 +53,17 @@
     transition: background-color 0.3s ease;
 }
 
-.accordion-trigger:hover {
+.cc-product-management .accordion-trigger:hover {
     background-color: #f0f0f1;
 }
 
-.accordion-content {
+.cc-product-management .accordion-content {
     padding: 20px;
     border-top: 1px solid #ddd;
 }
 
 /* Submit Button Container */
-.submit-container {
+.cc-product-management .submit-container {
     grid-column: 1 / -1;
     text-align: right;
     padding-top: 10px;
@@ -71,24 +71,24 @@
 }
 
 /* Input Focus States */
-.grid-form input:focus,
-.grid-form select:focus {
+.cc-product-management .grid-form input:focus,
+.cc-product-management .grid-form select:focus {
     border-color: #2271b1;
     box-shadow: 0 0 0 1px #2271b1;
     outline: 2px solid transparent;
 }
 
 /* Initially hide the fieldsets */
-fieldset {
+.cc-product-management fieldset {
     display: none;
 }
 
 /* Show fieldset when the radio button is checked */
-input[type="radio"]:checked + label + fieldset {
+.cc-product-management input[type="radio"]:checked + label + fieldset {
     display: block;
 }
 
-input[type="radio"] + label {
+.cc-product-management input[type="radio"] + label {
     padding: 5px 10px;
     margin-bottom: 0;
     background-color: #e0e0e0;
@@ -98,7 +98,7 @@ input[type="radio"] + label {
     padding-left: 25px;
 }
 
-input[type="radio"] + label::before {
+.cc-product-management input[type="radio"] + label::before {
     content: '';
     position: absolute;
     left: 5px;
@@ -111,11 +111,11 @@ input[type="radio"] + label::before {
     background-color: #fff;
 }
 
-input[type="radio"]:checked + label::before {
+.cc-product-management input[type="radio"]:checked + label::before {
    background-color: #2271b1;
 }
 
 /* Hide the actual radio button input */
-input[type="radio"] {
+.cc-product-management input[type="radio"] {
     display: none;
 }

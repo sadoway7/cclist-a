@@ -95,11 +95,11 @@ function display_product_management_page() {
     $available_categories = get_available_categories();
     $available_sizes = get_available_sizes();
 
-    echo '<div class="wrap">';
+    echo '<div class="wrap cc-product-management">';
     echo '<h1>Product Management</h1>';
 
-    // Display any messages
-    echo $messages;
+     // Display any messages
+    echo  $messages ;
 
     // --- Add Product Form ---
     echo '<div class="add-product-section">';
