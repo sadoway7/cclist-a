@@ -2,7 +2,7 @@
 /**
  * Plugin Name: cclist-admin
  * Description: Product management plugin.
- * Version: 0.1.1.3
+ * Version: 0.1.1.4
  * GitHub Plugin URI: sadoway7/cclist-a
  * GitHub Plugin URI: https://github.com/sadoway7/cclist-a.git
  */
@@ -118,6 +118,38 @@ add_action( 'rest_api_init', function () {
 
 function get_products_api() {
     return get_products();
+}
+
+// Enqueue scripts and styles
+function enqueue_custom_scripts() {
+    wp_enqueue_script('jquery'); // Ensure jQuery is loaded
+    wp_enqueue_style( 'admin-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/admin.css' );
+    wp_enqueue_script( 'form-handlers', plugin_dir_url( __FILE__ ) . 'admin/assets/js/form-handlers.js', array( 'jquery' ), '1.0', true );
+    wp_enqueue_script( 'table-handlers', plugin_dir_url( __FILE__ ) . 'admin/assets/js/table-handlers.js', array( 'jquery' ), '1.0', true );
+    wp_localize_script( 'table-handlers', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+    wp_enqueue_style( 'table-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/tables.css' );
+    wp_enqueue_style( 'form-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/forms.css' );
+    wp_enqueue_style( 'components-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/components.css' );
+    wp_enqueue_style( 'custom-table-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/custom-table.css' );
+}
+add_action( 'admin_enqueue_scripts', 'enqueue_custom_scripts' );
+
+// AJAX handler for updating products
+add_action('wp_ajax_update_product', 'handle_update_product');
+function handle_update_product() {
+    require_once( plugin_dir_path( __FILE__ ) . 'admin/update-product.php' );
+}
+
+// AJAX handler for deleting products
+add_action('wp_ajax_delete_product', 'handle_delete_product');
+function handle_delete_product() {
+    require_once( plugin_dir_path( __FILE__ ) . 'admin/delete-product.php' );
+}
+
+// AJAX handler for duplicating products
+add_action('wp_ajax_duplicate_product', 'handle_duplicate_product');
+function handle_duplicate_product() {
+    require_once( plugin_dir_path( __FILE__ ) . 'admin/duplicate-product.php' );
 }
 
 require_once( plugin_dir_path( __FILE__ ) . 'admin/admin-page.php' );

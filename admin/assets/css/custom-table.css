@@ -1,0 +1,8 @@
+.product-table tbody tr.group-start td {
+    border-top: 2px solid #000; /* Distinct border for the start of a group */
+}
+
+.product-table tbody tr.group-item td:nth-child(3), /* Size column */
+.product-table tbody tr.group-item td:nth-child(4) { /* Price Break column */
+    padding-left: 20px; /* Indent size and price break */
+}

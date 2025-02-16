@@ -87,7 +87,7 @@ function display_product_table( $products, $sort_by = 'category', $sort_order = 
                         }
 
                         ?>
-                        <tr>
+                        <tr class="<?php echo $new_item ? 'group-start' : 'group-item'; ?>">
                             <td><input type="checkbox" name="product_ids[]" value="<?php echo esc_attr( $product['id'] ); ?>" class="product-checkbox"></td>
                             <?php
                             // Category
