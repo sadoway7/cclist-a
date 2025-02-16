@@ -12,5 +12,38 @@
 }
 
 .product-table .actions button {
-    margin-right: 5px; /* Add some spacing between buttons */
+    margin-right: 3px; /* Reduce spacing between buttons */
+    padding: 2px 4px;       /* Reduce padding */
+    font-size: 0.8em;     /* Reduce font size */
+}
+
+/* Set specific column widths */
+.product-table th:nth-child(2), /* ID */
+.product-table td:nth-child(2) {
+  width: 5%;
+}
+
+.product-table th:nth-child(3), /* Category */
+.product-table td:nth-child(3) {
+  width: 15%;
+}
+
+.product-table th:nth-child(4), /* Item */
+.product-table td:nth-child(4) {
+  width: 20%;
+}
+
+.product-table th:nth-child(5), /* Size */
+.product-table td:nth-child(5) {
+  width: 10%;
+}
+
+.product-table th:nth-child(6), /* Price Break */
+.product-table td:nth-child(6) {
+  width: 25%;
+}
+
+.product-table th:nth-child(7), /* Actions */
+.product-table td:nth-child(7) {
+  width: 20%;
 }

@@ -114,4 +114,42 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+  // Dynamic filter handling
+  const filterSelector = document.getElementById('filter_selector');
+  if (filterSelector) {
+    filterSelector.addEventListener('change', function() {
+      const selectedFilters = Array.from(this.selectedOptions).map(option => option.value);
+
+      // Hide all filter containers
+      document.querySelectorAll('[id$=_filter_container]').forEach(container => {
+        container.style.display = 'none';
+      });
+
+      // Show selected filter containers
+      selectedFilters.forEach(filter => {
+        const container = document.getElementById(filter + '_filter_container');
+        if (container) {
+          container.style.display = 'block';
+        }
+      });
+    });
+
+    // Trigger change on load to handle any pre-selected filters
+    filterSelector.dispatchEvent(new Event('change'));
+  }
+
+  // Add event listener for "Remove Selected Filters" button
+  const removeFiltersButton = document.getElementById('remove_selected_filters');
+  if (removeFiltersButton) {
+    removeFiltersButton.addEventListener('click', function() {
+      const filterSelector = document.getElementById('filter_selector');
+      if (filterSelector) {
+        Array.from(filterSelector.options).forEach(option => {
+          option.selected = false;
+        });
+        filterSelector.dispatchEvent(new Event('change')); // Trigger change to update display
+      }
+    });
+  }
 });
