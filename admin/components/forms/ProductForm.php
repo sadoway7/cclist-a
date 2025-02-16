@@ -10,8 +10,8 @@ function display_product_form( $available_categories, $available_sizes ) {
     echo '<div class="accordion-trigger" data-target="add-product-form">';
     echo '<h2>Add New Product</h2>';
     echo '</div>';
-    echo '<div id="add-product-form" class="accordion-content" style="display: none;">';
-    echo '<form class="filter-form">';
+    echo '<div class="accordion-content">';
+    echo '<form id="add-product-form" class="filter-form">';
 
     // Add nonce field for security
     wp_nonce_field( 'add_product', 'add_product_nonce' );
