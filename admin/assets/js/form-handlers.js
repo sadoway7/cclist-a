@@ -4,6 +4,8 @@ function displayError(message) {
     if (errorMessageDiv) {
         errorMessageDiv.textContent = message;
         errorMessageDiv.style.display = 'block'; // Make sure it's visible
+        // Scroll to error message
+        errorMessageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
         alert(message); // Fallback to alert if div not found
     }
@@ -16,35 +18,56 @@ function handleAddProduct(event) {
     // Collect form data
     const form = document.getElementById('add-product-form');
     const formData = {
-        category: form.querySelector('#category').value,
-        item: form.querySelector('#item').value,
-        size: form.querySelector('#size').value,
-        quantity_min: form.querySelector('#quantity_min').value,
-        quantity_max: form.querySelector('#quantity_max').value,
-        price: form.querySelector('#price').value,
-        discount: form.querySelector('#discount').value || '0',
+        category: form.querySelector('#category').value.trim(),
+        item: form.querySelector('#item').value.trim(),
+        size: form.querySelector('#size').value.trim(),
+        quantity_min: form.querySelector('#quantity_min').value.trim(),
+        quantity_max: form.querySelector('#quantity_max').value.trim(),
+        price: form.querySelector('#price').value.trim(),
+        discount: form.querySelector('#discount').value.trim() || '0',
         add_product_nonce: form.querySelector('#add_product_nonce').value,
         action: 'add_product' // WordPress AJAX action
     };
 
     // Basic client-side validation
     if (!formData.category || !formData.item || !formData.quantity_min || !formData.price) {
-        displayError('Please fill in all required fields.');
+        displayError('Please fill in all required fields (Category, Item, Quantity Min, Price).');
         return;
     }
 
     if (isNaN(formData.quantity_min) || isNaN(formData.price)) {
-        displayError('Quantity Min and Price must be numeric.');
+        displayError('Quantity Min and Price must be numeric values.');
         return;
     }
   
     if (formData.quantity_max && isNaN(formData.quantity_max)) {
-        displayError('Quantity Max must be numeric.');
+        displayError('Quantity Max must be a numeric value.');
         return;
     }
 
     if (formData.discount && isNaN(formData.discount)) {
-        displayError('Discount must be numeric.');
+        displayError('Discount must be a numeric value between 0 and 1.');
+        return;
+    }
+
+    // Additional validation
+    if (parseFloat(formData.price) <= 0) {
+        displayError('Price must be greater than 0.');
+        return;
+    }
+
+    if (parseInt(formData.quantity_min) < 0) {
+        displayError('Quantity Min cannot be negative.');
+        return;
+    }
+
+    if (formData.quantity_max && parseInt(formData.quantity_max) <= parseInt(formData.quantity_min)) {
+        displayError('Quantity Max must be greater than Quantity Min.');
+        return;
+    }
+
+    if (formData.discount && (parseFloat(formData.discount) < 0 || parseFloat(formData.discount) > 1)) {
+        displayError('Discount must be between 0 and 1 (e.g., 0.5 for 50% discount).');
         return;
     }
 
@@ -66,10 +89,6 @@ function handleAddProduct(event) {
     .then(data => {
         console.log('Response data:', data);
         if (data.success) {
-            // Hide the form
-            document.getElementById('add-product-form-container').style.display = 'none';
-            // Reset the button text
-            document.getElementById('add-product-button').textContent = 'Add Product';
             // Clear the form
             form.reset();
             // Display a success message
@@ -86,38 +105,9 @@ function handleAddProduct(event) {
     });
 }
 
-// Helper function to format the price break string
-function formatPriceBreak(quantityMin, quantityMax, price, discount) {
-    let priceBreakString = '';
-    if (quantityMax !== null && quantityMax !== "") {
-        priceBreakString = `${quantityMin}-${quantityMax} = $${price}`;
-    } else {
-        priceBreakString = `${quantityMin}+ = $${price}`;
-    }
-    if (parseFloat(discount) > 0) {
-        const discounted_price = price - (price * discount);
-        priceBreakString += ' (Discount: ' + (discount * 100) + '% = $' + discounted_price.toFixed(2) + ')';
-    }
-    return priceBreakString;
-}
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Accordion handling
-    const accordionTrigger = document.getElementById('add-product-button');
-    const accordionContent = document.getElementById('add-product-form-container');
-    const submitProductBtn = document.getElementById('submit-add-product');
-
-    // Toggle accordion
-    if (accordionTrigger && accordionContent) {
-        accordionTrigger.addEventListener('click', () => {
-            const isHidden = accordionContent.style.display === 'none';
-            accordionContent.style.display = isHidden ? 'block' : 'none';
-            // Update button text to indicate state
-            accordionTrigger.textContent = isHidden ? 'Close Form' : 'Add Product';
-        });
-    }
-
     // Attach event listener to the "Add Product" submit button
+    const submitProductBtn = document.getElementById('submit-add-product');
     if (submitProductBtn) {
         submitProductBtn.addEventListener('click', handleAddProduct);
     }

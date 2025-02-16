@@ -1,17 +1,14 @@
 <?php
 /**
- * Displays the "Add Product" form within an accordion.
+ * Displays the "Add Product" form.
  *
  * @param array $available_categories An array of available product categories.
  * @param array $available_sizes An array of available product sizes.
  */
 function display_product_form( $available_categories, $available_sizes ) {
-    // Accordion container
-    echo '<div class="accordion-section">';
-    echo '<button type="button" class="accordion-trigger button button-primary" id="add-product-button">Add Product</button>';
-    
-    // Form container (initially hidden)
-    echo '<div id="add-product-form-container" class="accordion-content" style="display: none;">';
+    // Form container
+    echo '<div class="add-product-section">';
+    echo '<h2>Add New Product</h2>';
     echo '<form id="add-product-form" class="grid-form">';
 
     // Add nonce field for security
@@ -71,11 +68,10 @@ function display_product_form( $available_categories, $available_sizes ) {
 
     // Submit button container
     echo '<div class="submit-container">';
-    echo '<button type="button" id="submit-add-product" class="button button-primary">Submit Product</button>';
+    echo '<button type="button" id="submit-add-product" class="button button-primary">Add Product</button>';
     echo '</div>';
     
     echo '</form>'; // Close form
-    echo '</div>'; // Close accordion-content
-    echo '</div>'; // Close accordion-section
+    echo '</div>'; // Close add-product-section
 }
 ?>
