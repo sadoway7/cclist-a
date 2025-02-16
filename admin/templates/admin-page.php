@@ -12,9 +12,9 @@ if ( isset( $_POST['import_products'] ) ) {
     if ( ! isset( $_POST['import_nonce'] ) || ! wp_verify_nonce( $_POST['import_nonce'], 'import_products' ) ) {
         $import_message = '<div class="error"><p>Security check failed.</p></div>';
     } else {
-        $import_message = '<div class="updated"><p>' . esc_html( import_products( $_POST['import_data'] ) ) . '</p></div>';
-    }
-    // Redirect to avoid form resubmission and load updated product list.
+        $import_result = import_products( $_POST['import_data'] );
+        $import_message = '<div class="updated"><p>' . esc_html( $import_result ) . '</p></div>';
+     }
     wp_redirect( add_query_arg( 'import_message', urlencode( $import_message ), menu_page_url( 'product-management', false ) ) );
     exit;
 }

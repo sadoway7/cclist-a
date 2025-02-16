@@ -388,11 +388,13 @@ function import_products($json_data) {
                 add_available_size($product['size']);
             }
         } else {
-            $error_messages[] = 'Failed to insert product: ' . $product['item'];
+            $error_messages[] = 'Failed to import product: ' . $product['item'] . ' Error: ' . $wpdb->last_error;
         }
     }
 
-    $message = "Imported: $success_count product(s).";
+	$message = "Decoded JSON data: " . print_r($decoded, true) . '
+';
+    $message .= "Imported: $success_count product(s).";
     if (!empty($error_messages)) {
         $message .= " Errors: " . implode(' ', $error_messages);
     }
