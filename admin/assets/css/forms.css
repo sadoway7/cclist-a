@@ -36,21 +36,30 @@
     margin-left: 4px;
 }
 
-/* Form Section Styling */
-.add-product-section {
+/* Accordion Styling */
+.accordion-section {
     background: #fff;
-    padding: 20px;
     margin-bottom: 30px;
     border-radius: 4px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    position: relative;
 }
 
-.add-product-section h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ddd;
+.accordion-trigger {
+    width: 100%;
+    text-align: left;
+    padding: 15px 20px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.accordion-trigger:hover {
+    background-color: #f0f0f1;
+}
+
+.accordion-content {
+    padding: 20px;
+    border-top: 1px solid #ddd;
 }
 
 /* Submit Button Container */
