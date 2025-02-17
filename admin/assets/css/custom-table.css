@@ -1,49 +1,49 @@
-.product-table tbody tr.group-start td {
+.cclist-product-table tbody tr.cclist-group-start td {
     border-top: 2px solid #000; /* Distinct border for the start of a group */
 }
 
-.product-table tbody tr.group-item td:nth-child(4), /* Size column */
-.product-table tbody tr.group-item td:nth-child(5) { /* Price Break column */
+.cclist-product-table tbody tr.cclist-group-item td:nth-child(4), /* Size column */
+.cclist-product-table tbody tr.cclist-group-item td:nth-child(5) { /* Price Break column */
     padding-left: 20px; /* Indent size and price break */
 }
 
-.product-table .actions {
+.cclist-product-table .cclist-actions {
     white-space: nowrap; /* Prevent buttons from wrapping */
 }
 
-.product-table .actions button {
+.cclist-product-table .cclist-actions button {
     margin-right: 3px; /* Reduce spacing between buttons */
     padding: 2px 4px;       /* Reduce padding */
     font-size: 0.8em;     /* Reduce font size */
 }
 
 /* Set specific column widths */
-.product-table th:nth-child(2), /* ID */
-.product-table td:nth-child(2) {
+.cclist-product-table th:nth-child(2), /* ID */
+.cclist-product-table td:nth-child(2) {
   width: 5%;
 }
 
-.product-table th:nth-child(3), /* Category */
-.product-table td:nth-child(3) {
+.cclist-product-table th:nth-child(3), /* Category */
+.cclist-product-table td:nth-child(3) {
   width: 15%;
 }
 
-.product-table th:nth-child(4), /* Item */
-.product-table td:nth-child(4) {
+.cclist-product-table th:nth-child(4), /* Item */
+.cclist-product-table td:nth-child(4) {
   width: 20%;
 }
 
-.product-table th:nth-child(5), /* Size */
-.product-table td:nth-child(5) {
+.cclist-product-table th:nth-child(5), /* Size */
+.cclist-product-table td:nth-child(5) {
   width: 10%;
 }
 
-.product-table th:nth-child(6), /* Price Break */
-.product-table td:nth-child(6) {
+.cclist-product-table th:nth-child(6), /* Price Break */
+.cclist-product-table td:nth-child(6) {
   width: 25%;
 }
 
-.product-table th:nth-child(7), /* Actions */
-.product-table td:nth-child(7) {
+.cclist-product-table th:nth-child(7), /* Actions */
+.cclist-product-table td:nth-child(7) {
   width: 20%;
 }

@@ -10,10 +10,10 @@ if ( isset( $_POST['import_products'] ) ) {
         require_once( ABSPATH . 'wp-includes/pluggable.php' );
     }
     if ( ! isset( $_POST['import_nonce'] ) || ! wp_verify_nonce( $_POST['import_nonce'], 'import_products' ) ) {
-        $import_message = '<div class="error"><p>Security check failed.</p></div>';
+        $import_message = '<div class="cclist-error"><p>Security check failed.</p></div>';
     } else {
         $import_result = import_products( $_POST['import_data'] );
-        $import_message = '<div class="updated"><p>' . esc_html( $import_result ) . '</p></div>';
+        $import_message = '<div class="cclist-updated"><p>' . esc_html( $import_result ) . '</p></div>';
      }
     // wp_redirect( add_query_arg( 'import_message', urlencode( $import_message ), menu_page_url( 'product-management', false ) ) ); //Commented to show messages
     // exit;
@@ -22,7 +22,7 @@ if ( isset( $_POST['import_products'] ) ) {
 // Handle form submission for adding products
 if ( isset( $_POST['add_product'] ) ) {
     if ( empty( $_POST['category'] )  || empty( $_POST['item'] ) || empty( $_POST['price'] ) ) {
-        $add_message = '<div class="error"><p>Error: Please fill in all required fields.</p></div>';
+        $add_message = '<div class="cclist-error"><p>Error: Please fill in all required fields.</p></div>';
     } else {
         $category = sanitize_text_field( $_POST['category'] );
         $item = sanitize_text_field( $_POST['item'] );
@@ -49,9 +49,9 @@ if ( isset( $_POST['add_product'] ) ) {
 		}
 
         if ( ! add_product( $product ) ) {
-            $add_message = '<div class="error"><p>Error: Could not add product.</p></div>';
+            $add_message = '<div class="cclist-error"><p>Error: Could not add product.</p></div>';
         } else {
-            $add_message = '<div class="updated"><p>Product added successfully.</p></div>';
+            $add_message = '<div class="cclist-updated"><p>Product added successfully.</p></div>';
         }
     }
     // Redirect to refresh the list.
@@ -63,9 +63,9 @@ if ( isset( $_POST['add_product'] ) ) {
 if ( isset( $_POST['delete_product'] ) ) {
     $id = intval( $_POST['id'] );
     if ( ! delete_product($id) ) {
-        $delete_message = '<div class="error"><p>Error: Could not delete product.</p></div>';
+        $delete_message = '<div class="cclist-error"><p>Error: Could not delete product.</p></div>';
     } else {
-        $delete_message = '<div class="updated"><p>Product deleted successfully.</p></div>';
+        $delete_message = '<div class="cclist-updated"><p>Product deleted successfully.</p></div>';
     }
     if ( ! function_exists( 'wp_redirect' ) ) {
         require_once( ABSPATH . 'wp-includes/pluggable.php' );
@@ -95,19 +95,19 @@ function display_product_management_page() {
     $available_categories = get_available_categories();
     $available_sizes = get_available_sizes();
 
-    echo '<div class="wrap">';
+    echo '<div class="cclist-wrap">';
     echo '<h1>Product Management</h1>';
 
     // Display any messages
     echo $messages;
 
     // --- Add Product Form ---
-    echo '<div class="add-product-section">';
+    echo '<div class="cclist-add-product-section">';
     echo '<h2>Add Product</h2>';
-    echo '<form method="post" id="add-product-form" class="grid-form">';
+    echo '<form method="post" id="add-product-form" class="cclist-grid-form">';
 
     // Category Input with Datalist
-    echo '<div class="form-field required-field">';
+    echo '<div class="cclist-form-field cclist-required-field">';
     echo '<label for="category">Category</label>';
     echo '<input type="text" name="category" id="category" list="category_list" required>';
     echo '<datalist id="category_list">';
@@ -118,13 +118,13 @@ function display_product_management_page() {
     echo '</div>';
 
     // Item Input
-    echo '<div class="form-field required-field">';
+    echo '<div class="cclist-form-field cclist-required-field">';
     echo '<label for="item">Item</label>';
     echo '<input type="text" name="item" id="item" required>';
     echo '</div>';
 
     // Size Input with Datalist
-    echo '<div class="form-field">';
+    echo '<div class="cclist-form-field">';
     echo '<label for="size">Size</label>';
     echo '<input type="text" name="size" id="size" list="size_list">';
     echo '<datalist id="size_list">';
@@ -135,39 +135,39 @@ function display_product_management_page() {
     echo '</div>';
 
     // Quantity Min Input
-    echo '<div class="form-field required-field">';
+    echo '<div class="cclist-form-field cclist-required-field">';
     echo '<label for="quantity_min">Quantity Min</label>';
     echo '<input type="number" name="quantity_min" id="quantity_min" required min="1">';
     echo '</div>';
 
     // Quantity Max Input
-    echo '<div class="form-field">';
+    echo '<div class="cclist-form-field">';
     echo '<label for="quantity_max">Quantity Max</label>';
     echo '<input type="number" name="quantity_max" id="quantity_max" min="1">';
     echo '</div>';
 
     // Price Input
-    echo '<div class="form-field required-field">';
+    echo '<div class="cclist-form-field cclist-required-field">';
     echo '<label for="price">Price</label>';
     echo '<input type="number" step="0.01" name="price" id="price" required min="0">';
     echo '</div>';
 
     // Discount Input
-    echo '<div class="form-field">';
+    echo '<div class="cclist-form-field">';
     echo '<label for="discount">Discount</label>';
     echo '<input type="number" step="0.01" name="discount" id="discount" min="0" max="1" placeholder="0.00 - 1.00">';
     echo '</div>';
 
     // Submit button container
-    echo '<div class="submit-container">';
-    echo '<input type="submit" name="add_product" class="button button-primary" value="Add Product">';
+    echo '<div class="cclist-submit-container">';
+    echo '<input type="submit" name="add_product" class="cclist-button cclist-button-primary" value="Add Product">';
     echo '</div>';
     echo '</form>';
     echo '<hr>';
 
     // --- Filtering and Search ---
     echo '<h2>Filter Products</h2>';
-    echo '<form method="get" style="margin-bottom: 20px;">';
+    echo '<form method="get" style="margin-bottom: 20px;" class="cclist-filter-form">';
     echo '<input type="hidden" name="page" value="product-management" />';
     echo '<label for="category_filter">Category:</label>';
     echo '<select name="category" id="category_filter">';
@@ -179,7 +179,7 @@ function display_product_management_page() {
     echo '</select> ';
     echo '<label for="search">Search:</label>';
     echo '<input type="text" name="search" id="search" value="' . ( isset( $_GET['search'] ) ? esc_attr( $_GET['search'] ) : '' ) . '" />';
-    echo '<input type="submit" class="button" value="Filter" />';
+    echo '<input type="submit" class="cclist-button" value="Filter" />';
     echo '</form>';
 
     // --- Product Table ---
@@ -191,13 +191,13 @@ function display_product_management_page() {
 
     // --- Import Data Form ---
     echo '<h2>Import Data</h2>';
-    echo '<form method="post">';
+    echo '<form method="post" class="cclist-grid-form">';
     wp_nonce_field( 'import_products', 'import_nonce' );
     echo '<textarea name="import_data" rows="10" cols="80" placeholder="Paste JSON data here..." style="width: 100%; max-width: 800px;"></textarea><br>'; // Wider textarea
-    echo '<input type="submit" name="import_products" class="button" value="Import Data">';
+    echo '<input type="submit" name="import_products" class="cclist-button" value="Import Data">';
     echo '</form>';
 
-    echo '</div>'; // Close .wrap
+    echo '</div>'; // Close .cclist-wrap
 
     // Enqueue styles
     wp_enqueue_style( 'cc-product-management-components', plugin_dir_url( __FILE__ ) . '../assets/css/components.css' );

@@ -30,11 +30,11 @@ function handleEditClick(event) {
           const discountValue = discountMatch ? (parseFloat(discountMatch[1])/100) : '';
 
           cell.innerHTML = `
-              <input type="text" value="${quantityValue.split('-')[0]}" data-original-value="${quantityValue.split('-')[0]}" style="width: 50px;" class="edit-quantity-min"> -
-              <input type="text" value="${quantityMaxValue}" data-original-value="${quantityMaxValue}" style="width: 50px;" class="edit-quantity-max"> = 
-              $<input type="text" value="${priceValue}" data-original-value="${priceValue}" style="width: 60px;" class="edit-price">
+              <input type="text" value="${quantityValue.split('-')[0]}" data-original-value="${quantityValue.split('-')[0]}" style="width: 50px;" class="cclist-edit-quantity-min"> -
+              <input type="text" value="${quantityMaxValue}" data-original-value="${quantityMaxValue}" style="width: 50px;" class="cclist-edit-quantity-max"> = 
+              $<input type="text" value="${priceValue}" data-original-value="${priceValue}" style="width: 60px;" class="cclist-edit-price">
               <br>
-              Discount: <input type="text" value="${discountValue}" data-original-value="${discountValue}" style="width: 50px;" class="edit-discount">
+              Discount: <input type="text" value="${discountValue}" data-original-value="${discountValue}" style="width: 50px;" class="cclist-edit-discount">
           `;
       }
       else {
@@ -50,8 +50,8 @@ function handleEditClick(event) {
 
   // Change "Edit" to "Save"
   editButton.value = 'Save';
-  editButton.classList.remove('edit-product');
-  editButton.classList.add('save-product');
+  editButton.classList.remove('cclist-edit-product');
+  editButton.classList.add('cclist-save-product');
   editButton.removeEventListener('click', handleEditClick); // Remove edit listener
   editButton.addEventListener('click', handleSaveClick); 
 }
@@ -77,10 +77,10 @@ function handleSaveClick(event) {
         category: cells[1].querySelector('input').value, // Get value from input in Category cell
         item: cells[2].querySelector('input').value, // Get value from input in Item cell
         size: cells[3].querySelector('input').value, // Get value from input in Size cell
-        quantity_min: cells[4].querySelector('.edit-quantity-min').value, // Get value from .edit-quantity-min
-        quantity_max: cells[4].querySelector('.edit-quantity-max').value, // Get value from .edit-quantity-max
-        price: cells[4].querySelector('.edit-price').value, // Get value from .edit-price
-        discount: cells[4].querySelector('.edit-discount').value // Get value from .edit-discount
+        quantity_min: cells[4].querySelector('.cclist-edit-quantity-min').value, // Get value from .edit-quantity-min
+        quantity_max: cells[4].querySelector('.cclist-edit-quantity-max').value, // Get value from .edit-quantity-max
+        price: cells[4].querySelector('.cclist-edit-price').value, // Get value from .edit-price
+        discount: cells[4].querySelector('.cclist-edit-discount').value // Get value from .edit-discount
     };
 
     // Get the nonce from the clicked button
@@ -138,13 +138,13 @@ function handleSaveClick(event) {
 
             // Change "Save" back to "Edit"
             saveButton.value = 'Edit';
-            saveButton.classList.remove('save-product');
-            saveButton.classList.add('edit-product');
+            saveButton.classList.remove('cclist-save-product');
+            saveButton.classList.add('cclist-edit-product');
             saveButton.removeEventListener('click', handleSaveClick);
             saveButton.addEventListener('click', handleEditClick);
         } else {
             // Handle error: Display error message in the designated area
-            const errorMessageDiv = document.getElementById('error-message');
+            const errorMessageDiv = document.getElementById('cclist-error-message');
             if (errorMessageDiv) {
                 errorMessageDiv.textContent = 'Error updating product: ' + data.message;
             } else {
@@ -154,7 +154,7 @@ function handleSaveClick(event) {
     })
     .catch(error => {
         // Handle fetch error: Display error message in the designated area
-        const errorMessageDiv = document.getElementById('error-message');
+        const errorMessageDiv = document.getElementById('cclist-error-message');
         if (errorMessageDiv) {
             errorMessageDiv.textContent = 'Error updating product: ' + error;
         } else {
@@ -222,14 +222,14 @@ function handleDuplicateClick(event) {
 
 document.addEventListener('DOMContentLoaded', function() {
   // Attach event listeners to all "Edit" buttons
-  document.querySelectorAll('.edit-product').forEach(button => {
+  document.querySelectorAll('.cclist-edit-product').forEach(button => {
       button.addEventListener('click', handleEditClick);
   });
 
  // Select all functionality using event delegation
   document.addEventListener('change', function(event) {
       if (event.target.id === 'select-all-products') {
-          const checkboxes = document.querySelectorAll('.product-checkbox');
+          const checkboxes = document.querySelectorAll('.cclist-product-checkbox');
           checkboxes.forEach(checkbox => {
               checkbox.checked = event.target.checked;
           });
@@ -244,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
           const selectedAction = document.getElementById('bulk-action-selector-bottom').value;
           if (selectedAction === 'delete') {
-              const selectedProducts = document.querySelectorAll('.product-checkbox:checked');
+              const selectedProducts = document.querySelectorAll('.cclist-product-checkbox:checked');
               const productIds = Array.from(selectedProducts).map(checkbox => checkbox.value);
 
               if (confirm('Are you sure you want to delete the selected products?')) {
@@ -278,29 +278,29 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Row highlighting
-  const productCheckboxes = document.querySelectorAll('.product-checkbox');
+  const productCheckboxes = document.querySelectorAll('.cclist-product-checkbox');
   productCheckboxes.forEach(checkbox => {
       checkbox.addEventListener('change', function() {
           const row = this.closest('tr');
           if (this.checked) {
-              row.classList.add('row-selected');
+              row.classList.add('cclist-row-selected');
           } else {
-              row.classList.remove('row-selected');
+              row.classList.remove('cclist-row-selected');
           }
       });
   });
 
     // Attach event listeners to all "Delete" buttons using event delegation.  Removed individual attachment.
     document.querySelector('.products').addEventListener('click', function(event) {
-        if (event.target.closest('.delete-product')) {
-            handleDeleteClick.call(event.target.closest('.delete-product'), event);
+        if (event.target.closest('.cclist-delete-product')) {
+            handleDeleteClick.call(event.target.closest('.cclist-delete-product'), event);
         }
     });
 
   // Attach event listeners to all "Duplicate" buttons using event delegation.
   document.querySelector('.products').addEventListener('click', function(event) {
-    if (event.target.closest('.duplicate-product')) {
-      handleDuplicateClick.call(event.target.closest('.duplicate-product'), event);
+    if (event.target.closest('.cclist-duplicate-product')) {
+      handleDuplicateClick.call(event.target.closest('.cclist-duplicate-product'), event);
     }
   });
 });

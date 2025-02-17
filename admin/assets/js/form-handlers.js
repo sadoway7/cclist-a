@@ -1,6 +1,6 @@
 // Helper function to display error messages
 function displayError(message) {
-    const errorMessageDiv = document.getElementById('error-message');
+    const errorMessageDiv = document.getElementById('cclist-error-message');
     if (errorMessageDiv) {
         errorMessageDiv.textContent = message;
         errorMessageDiv.style.display = 'block'; // Make sure it's visible
@@ -16,7 +16,7 @@ function handleAddProduct(event) {
     event.preventDefault();
 
     // Collect form data
-    const form = document.getElementById('add-product-form');
+    const form = document.getElementById('cclist-add-product-form');
     const formData = {
         category: form.querySelector('#category').value.trim(),
         item: form.querySelector('#item').value.trim(),
@@ -108,15 +108,15 @@ function handleAddProduct(event) {
 document.addEventListener('DOMContentLoaded', function() {
 
     // Attach event listener to the "Add Product" submit button
-    const submitProductBtn = document.getElementById('submit-add-product');
+    const submitProductBtn = document.getElementById('cclist-submit-add-product');
     if (submitProductBtn) {
         submitProductBtn.addEventListener('click', handleAddProduct);
     }
 
     // JSON validation for import form
-    var importTextarea = document.getElementById('import_data');
-    var jsonPreview = document.getElementById('json-preview');
-    var isValidInput = document.getElementById('is_json_valid');
+    var importTextarea = document.getElementById('cclist-import_data');
+    var jsonPreview = document.getElementById('cclist-json-preview');
+    var isValidInput = document.getElementById('cclist-is_json_valid');
 
     if (importTextarea && jsonPreview && isValidInput) {
         importTextarea.addEventListener('input', function() {
