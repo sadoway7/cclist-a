@@ -6,23 +6,23 @@
  * @param array $available_sizes An array of available product sizes.
  */
 function display_product_form( $available_categories, $available_sizes ) {
-    echo '<div class="accordion-section">';
-    echo '<div class="accordion-trigger" data-target="add-product-form">';
+    echo '<div class="cclist-accordion-section">';
+    echo '<div class="cclist-accordion-trigger" data-target="add-product-form">';
     echo '<h2>Add New Product</h2>';
     echo '</div>';
-    echo '<div class="accordion-content">';
-    echo '<form id="add-product-form" class="filter-form">';
+    echo '<div class="cclist-accordion-content">';
+    echo '<form id="add-product-form" class="cclist-grid-form">';
 
     // Add nonce field for security
     wp_nonce_field( 'add_product', 'add_product_nonce' );
 
     // First row: Category, Item, Size
-    echo '<div class="filter-row">';
+    echo '<div class="cclist-form-field">';
     
     // Category Input with Datalist
-    echo '<div class="filter-section">';
+    echo '<div class="cclist-filter-section">';
     echo '<label for="category">CATEGORY</label>';
-    echo '<input type="text" name="category" id="category" list="category_list" required class="dropdown-input">';
+    echo '<input type="text" name="category" id="category" list="category_list" required class="cclist-dropdown-input">';
     echo '<datalist id="category_list">';
     foreach ( $available_categories as $category ) {
         echo '<option value="' . esc_attr( $category ) . '">';
@@ -31,15 +31,15 @@ function display_product_form( $available_categories, $available_sizes ) {
     echo '</div>';
 
     // Item Input
-    echo '<div class="filter-section">';
+    echo '<div class="cclist-filter-section">';
     echo '<label for="item">ITEM</label>';
     echo '<input type="text" name="item" id="item" required>';
     echo '</div>';
 
     // Size Input with Datalist
-    echo '<div class="filter-section">';
+    echo '<div class="cclist-filter-section">';
     echo '<label for="size">SIZE</label>';
-    echo '<input type="text" name="size" id="size" list="size_list" class="dropdown-input">';
+    echo '<input type="text" name="size" id="size" list="size_list" class="cclist-dropdown-input">';
     echo '<datalist id="size_list">';
     foreach ( $available_sizes as $size ) {
         echo '<option value="' . esc_attr( $size ) . '">';
@@ -47,38 +47,38 @@ function display_product_form( $available_categories, $available_sizes ) {
     echo '</datalist>';
     echo '</div>';
     
-    echo '</div>'; // Close first filter-row
+    echo '</div>'; // Close first form-field
 
     // Second row: Quantity range and Price
-    echo '<div class="filter-row">';
+    echo '<div class="cclist-form-field">';
     
     // Quantity Range
-    echo '<div class="filter-section">';
+    echo '<div class="cclist-filter-section">';
     echo '<label>QUANTITY</label>';
-    echo '<div class="range-inputs">';
+    echo '<div class="cclist-range-inputs">';
     echo '<input type="number" name="quantity_min" id="quantity_min" placeholder="Min" required>';
-    echo '<span class="range-separator">-</span>';
+    echo '<span class="cclist-range-separator">-</span>';
     echo '<input type="number" name="quantity_max" id="quantity_max" placeholder="Max">';
     echo '</div>';
     echo '</div>';
 
     // Price Input
-    echo '<div class="filter-section">';
+    echo '<div class="cclist-filter-section">';
     echo '<label for="price">PRICE</label>';
     echo '<input type="number" step="0.01" name="price" id="price" required>';
     echo '</div>';
 
     // Discount Input
-    echo '<div class="filter-section">';
+    echo '<div class="cclist-filter-section">';
     echo '<label for="discount">DISCOUNT</label>';
     echo '<input type="number" step="0.01" name="discount" id="discount">';
     echo '</div>';
 
-    echo '</div>'; // Close second filter-row
+    echo '</div>'; // Close second form-field
 
     // Button row
-    echo '<div class="filter-row">';
-    echo '<div class="button-group" style="margin-left: auto;">';
+    echo '<div class="cclist-submit-container">';
+    echo '<div class="cclist-button-group">';
     echo '<button type="button" id="submit-add-product" class="button-primary">Add Product</button>';
     echo '</div>';
     echo '</div>';

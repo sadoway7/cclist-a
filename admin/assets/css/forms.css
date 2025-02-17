@@ -1,20 +1,20 @@
-.wrap label {
+.cclist-wrap label {
     display: block; /* Labels above inputs */
     margin-bottom: 5px; /* Space between label and input */
     font-weight: bold;
 }
 
-.wrap input[type="text"],
-.wrap input[type="number"],
-.wrap select,
-.wrap textarea {
+.cclist-wrap input[type="text"],
+.cclist-wrap input[type="number"],
+.cclist-wrap select,
+.cclist-wrap textarea {
     width: 100%; /* Inputs take full width of their container */
     box-sizing: border-box; /* Include padding and border in width */
     margin-bottom: 10px;
 }
 
 /* Grid Form Layout */
-.grid-form {
+.cclist-grid-form {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
@@ -25,26 +25,26 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.grid-form .form-field {
+.cclist-grid-form .cclist-form-field {
     position: relative;
 }
 
 /* Required Field Indicator */
-.required-field label::after {
+.cclist-required-field label::after {
     content: '*';
     color: #d63638;
     margin-left: 4px;
 }
 
 /* Accordion Styling */
-.accordion-section {
+.cclist-accordion-section {
     background: #fff;
     margin-bottom: 30px;
     border-radius: 4px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.accordion-trigger {
+.cclist-accordion-trigger {
     width: 100%;
     text-align: left;
     padding: 15px 20px;
@@ -53,17 +53,17 @@
     transition: background-color 0.3s ease;
 }
 
-.accordion-trigger:hover {
+.cclist-accordion-trigger:hover {
     background-color: #f0f0f1;
 }
 
-.accordion-content {
+.cclist-accordion-content {
     padding: 20px;
     border-top: 1px solid #ddd;
 }
 
 /* Submit Button Container */
-.submit-container {
+.cclist-submit-container {
     grid-column: 1 / -1;
     text-align: right;
     padding-top: 10px;
@@ -71,14 +71,14 @@
 }
 
 /* Input Focus States */
-.grid-form input:focus,
-.grid-form select:focus {
+.cclist-grid-form input:focus,
+.cclist-grid-form select:focus {
     border-color: #2271b1;
     box-shadow: 0 0 0 1px #2271b1;
     outline: 2px solid transparent;
 }
 
-input[type="radio"] + label {
+.cclist-wrap input[type="radio"] + label {
     padding: 5px 10px;
     margin-bottom: 0;
     background-color: #e0e0e0;
@@ -88,7 +88,7 @@ input[type="radio"] + label {
     padding-left: 25px;
 }
 
-input[type="radio"] + label::before {
+.cclist-wrap input[type="radio"] + label::before {
     content: '';
     position: absolute;
     left: 5px;
@@ -101,11 +101,11 @@ input[type="radio"] + label::before {
     background-color: #fff;
 }
 
-input[type="radio"]:checked + label::before {
+.cclist-wrap input[type="radio"]:checked + label::before {
    background-color: #2271b1;
 }
 
 /* Hide the actual radio button input */
-input[type="radio"] {
+.cclist-wrap input[type="radio"] {
     display: none;
 }
