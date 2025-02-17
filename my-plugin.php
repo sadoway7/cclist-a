@@ -128,8 +128,8 @@ function enqueue_custom_scripts() {
     wp_enqueue_script( 'table-handlers', plugin_dir_url( __FILE__ ) . 'admin/assets/js/table-handlers.js', array( 'jquery' ), '1.0', true );
     
     // Pass ajaxurl to both scripts
-    wp_localize_script( 'form-handlers', 'ajaxurl', admin_url( 'admin-ajax.php' ) );
-    wp_localize_script( 'table-handlers', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+    // wp_localize_script( 'form-handlers', 'ajaxurl', admin_url( 'admin-ajax.php' ) );
+    // wp_localize_script( 'table-handlers', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
     
     wp_enqueue_style( 'table-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/tables.css' );
     wp_enqueue_style( 'form-styles', plugin_dir_url( __FILE__ ) . 'admin/assets/css/forms.css' );
