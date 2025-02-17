@@ -2,7 +2,7 @@
 /**
  * Plugin Name: cclist-admin
  * Description: Product management plugin.
- * Version: 0.1.6.6
+ * Version: 0.1.6.7
  * GitHub Plugin URI: sadoway7/cclist-a
  * GitHub Plugin URI: https://github.com/sadoway7/cclist-a.git
  */
@@ -142,7 +142,41 @@ add_action( 'admin_enqueue_scripts', 'enqueue_custom_scripts' );
 // AJAX handler for adding products
 add_action('wp_ajax_add_product', 'handle_add_product');
 function handle_add_product() {
-    require_once( plugin_dir_path( __FILE__ ) . 'admin/add-product.php' );
+    // Verify the nonce
+    check_ajax_referer( 'add_product', 'add_product_nonce' );
+    
+    // Sanitize the data
+    $category = sanitize_text_field( $_POST['category'] );
+    $item = sanitize_text_field( $_POST['item'] );
+    $size =  sanitize_text_field( $_POST['size'] ) ;
+    $quantity_min = intval( $_POST['quantity_min'] );
+    $quantity_max = $_POST['quantity_max'] === '' ? null : intval($_POST['quantity_max']);
+    $price = floatval( $_POST['price'] );
+    $discount = floatval( $_POST['discount'] );
+
+    // Create the product array
+    $product = array(
+        'category'     => $category,
+        'item'         => $item,
+        'size'         => $size,
+        'quantity_min' => $quantity_min,
+        'quantity_max' => $quantity_max,
+        'price'        => $price,
+        'discount'     => $discount
+    );
+
+    // Update available categories and sizes
+    add_available_category($category);
+    if ($size !== null) {
+        add_available_size($size);
+    }
+
+    // Add the product
+    if ( add_product( $product ) ) {
+        wp_send_json_success( 'Product added successfully.' );
+    } else {
+        wp_send_json_error( 'Failed to add product.' );
+    }
 }
 
 // AJAX handler for updating products

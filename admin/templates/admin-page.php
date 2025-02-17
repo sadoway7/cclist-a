@@ -19,46 +19,6 @@ if ( isset( $_POST['import_products'] ) ) {
     // exit;
 }
 
-// Handle form submission for adding products
-if ( isset( $_POST['add_product'] ) ) {
-    if ( empty( $_POST['category'] )  || empty( $_POST['item'] ) || empty( $_POST['price'] ) ) {
-        $add_message = '<div class="cclist-error"><p>Error: Please fill in all required fields.</p></div>';
-    } else {
-        $category = sanitize_text_field( $_POST['category'] );
-        $item = sanitize_text_field( $_POST['item'] );
-        $size =  sanitize_text_field( $_POST['size'] ) ;
-        $quantity_min = intval( $_POST['quantity_min'] );
-		$quantity_max = $_POST['quantity_max'] === '' ? null : intval($_POST['quantity_max']);
-        $price = floatval( $_POST['price'] );
-        $discount = floatval( $_POST['discount'] );
-
-        $product = array(
-            'category' => $category,
-            'item' => $item,
-            'size' => $size,
-            'quantity_min' => $quantity_min,
-            'quantity_max' => $quantity_max,
-            'price' => $price,
-            'discount' => $discount
-        );
-
-        // Update available categories and sizes
-        add_available_category($category);
-		if ($size !== null) {
-        	add_available_size($size);
-		}
-
-        if ( ! add_product( $product ) ) {
-            $add_message = '<div class="cclist-error"><p>Error: Could not add product.</p></div>';
-        } else {
-            $add_message = '<div class="cclist-updated"><p>Product added successfully.</p></div>';
-        }
-    }
-    // Redirect to refresh the list.
-    wp_redirect( add_query_arg( 'add_message', urlencode( $add_message ), menu_page_url( 'product-management', false ) ) );
-    exit;
-}
-
 // Handle product deletion
 if ( isset( $_POST['delete_product'] ) ) {
     $id = intval( $_POST['id'] );

@@ -57,6 +57,7 @@ function get_add_product_form($available_categories, $available_sizes) {
                 <td><input type="number" step="0.01" name="discount" id="discount" class="cclist-regular-number" /></td>
             </tr>
         </table>
+        <?php wp_nonce_field( 'add_product', 'add_product_nonce' ); ?>
         <input type="hidden" name="add_product" value="1" />
         <input type="submit" name="submit" class="cclist-button cclist-button-primary" value="Add Product" />
     </form>
