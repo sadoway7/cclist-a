@@ -77,3 +77,35 @@
     box-shadow: 0 0 0 1px #2271b1;
     outline: 2px solid transparent;
 }
+
+input[type="radio"] + label {
+    padding: 5px 10px;
+    margin-bottom: 0;
+    background-color: #e0e0e0;
+    border: 1px solid #999;
+    border-radius: 4px;
+    position: relative;
+    padding-left: 25px;
+}
+
+input[type="radio"] + label::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    border: 2px solid #999;
+    border-radius: 50%;
+    background-color: #fff;
+}
+
+input[type="radio"]:checked + label::before {
+   background-color: #2271b1;
+}
+
+/* Hide the actual radio button input */
+input[type="radio"] {
+    display: none;
+}
